@@ -195,10 +195,10 @@ model.apply(init_xavier)
 %%{init: {'flowchart': {'htmlLabels': true}}}%%
 flowchart TB
     subgraph Xavier 初始化
-    A[输入 x] --> B[方差 Var(x)]
+    A[输入 x] --> B["<img src='https://www.codecogs.com/svg.latex?Var%28x%29' />"]
     B --> C["<img src='https://www.codecogs.com/svg.latex?W%20%5Csim%20N%5Cleft%280%2C%20%5Cfrac%7B2%7D%7Bn_%7Bin%7D%20%2B%20n_%7Bout%7D%7D%5Cright%29' />"]
-    C --> D[输出 y = Wx]
-    D --> E[方差 Var(y) ≈ Var(x)]
+    C --> D["<img src='https://www.codecogs.com/svg.latex?y%20%3D%20Wx' />"]
+    D --> E["<img src='https://www.codecogs.com/svg.latex?Var%28y%29%20%5Capprox%20Var%28x%29' />"]
     end
 
     style C fill:#c8e6c9
