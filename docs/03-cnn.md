@@ -154,7 +154,7 @@ flowchart TB
 = 1
 ```
 
-**卷积公式**：
+**二维卷积公式**：
 $$(f * g)(i, j) = \sum_{m=-k}^{k} \sum_{n=-k}^{k} f(i+m, j+n) \cdot g(m, n)$$
 
 其中：
@@ -360,13 +360,14 @@ for epoch in range(epochs):
 
 卷积核的值是通过**反向传播**自动学习的：
 
-```
 1. 计算损失对输出的梯度
 2. 链式法则传递到卷积核
 3. 梯度下降更新卷积核的值
 
-例如：∂loss/∂kernel = ∂loss/∂output × ∂output/∂kernel
-```
+例如：
+$$
+\frac{\partial \text{loss}}{\partial \text{kernel}} = \frac{\partial \text{loss}}{\partial \text{output}} \times \frac{\partial \text{output}}{\partial \text{kernel}}
+$$
 
 这就是 CNN 强大的地方：**不需要人工设计卷积核，网络自己从数据中学习**。
 
