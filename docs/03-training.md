@@ -235,3 +235,232 @@ for epoch in range(100):
 ## 下一步
 
 下一章我们将讨论 Transformer 的前置知识，为学习 Transformer 做准备。
+
+---
+
+## 3.5 优化器
+
+### 3.5.1 为什么需要优化器？
+
+基础梯度下降算法存在以下问题：
+
+| 问题 | 描述 |
+|------|------|
+| 收敛慢 | 在平坦区域移动缓慢 |
+| 局部极小值 | 容易困在局部最优解 |
+| 学习率统一 | 所有参数用相同学习率 |
+| 梯度消失/爆炸 | 深层网络梯度不稳定 |
+
+**优化器**是对基础梯度下降的改进，通过不同的策略加速收敛和提高性能。
+
+### 3.5.2 常用优化器
+
+#### SGD（随机梯度下降）
+
+$$W_{new} = W_{old} - \eta \cdot g$$
+
+其中 $g$ 是梯度。
+
+**特点**：
+- 简单直观
+- 收敛速度慢
+- 容易陷入局部最优
+
+#### Momentum（动量法）
+
+$$v_{new} = \gamma \cdot v_{old} + \eta \cdot g$$
+$$W_{new} = W_{old} - v_{new}$$
+
+**特点**：
+- 引入动量项 $\gamma$（通常 0.9）
+- 加速收敛
+- 减少震荡
+
+```mermaid
+graph LR
+    A[梯度 g] --> B[动量 v]
+    B --> C[更新参数]
+    C --> D[累积动量]
+    D --> A
+
+    style B fill:#c8e6c9
+```
+
+#### AdaGrad（自适应梯度）
+
+$$W_{new} = W_{old} - \frac{\eta}{\sqrt{G + \epsilon}} \cdot g$$
+
+其中 $G$ 是历史梯度的平方和。
+
+**特点**：
+- 自适应调整学习率
+- 稀疏特征效果好
+- 后期学习率可能过小
+
+#### RMSprop（均方根传播）
+
+$$E[g^2]_{new} = \rho \cdot E[g^2]_{old} + (1-\rho) \cdot g^2$$
+$$W_{new} = W_{old} - \frac{\eta}{\sqrt{E[g^2]_{new} + \epsilon}} \cdot g$$
+
+**特点**：
+- 使用指数移动平均
+- 解决 AdaGrad 学习率衰减过快问题
+- 适合非平稳目标
+
+#### Adam（Adaptive Moment Estimation）
+
+结合 Momentum 和 RMSprop：
+
+$$m_{new} = \beta_1 \cdot m_{old} + (1-\beta_1) \cdot g$$
+$$v_{new} = \beta_2 \cdot v_{old} + (1-\beta_2) \cdot g^2$$
+$$\hat{m} = \frac{m_{new}}{1-\beta_1^t}, \quad \hat{v} = \frac{v_{new}}{1-\beta_2^t}$$
+$$W_{new} = W_{old} - \frac{\eta}{\sqrt{\hat{v}} + \epsilon} \cdot \hat{m}$$
+
+**特点**：
+- 最常用的优化器
+- 默认参数：$\eta=0.001, \beta_1=0.9, \beta_2=0.999$
+- 适用于大多数场景
+
+#### AdamW（带权重衰减的 Adam）
+
+Adam 的改进版本，解耦权重衰减：
+
+$$W_{new} = W_{old} - \eta \cdot (\hat{m} / (\sqrt{\hat{v}} + \epsilon) + \lambda \cdot W_{old})$$
+
+**特点**：
+- 更好的正则化效果
+- Hugging Face 推荐使用
+- 训练更稳定
+
+#### LAMB（Layer-wise Adaptive Moments optimizer for Batch training）
+
+专门为大 batch size 设计：
+
+$$W_{new} = W_{old} - \frac{\eta}{\|W_{old}\|} \cdot \frac{\hat{m}}{\sqrt{\hat{v}} + \epsilon}$$
+
+**特点**：
+- 支持超大 batch（如 8k+）
+- 用于 BERT 预训练
+
+### 3.5.3 优化器对比
+
+| 优化器 | 学习率策略 | 适用场景 | 特点 |
+|--------|------------|----------|------|
+| SGD | 固定/衰减 | 简单任务 | 稳定，但收敛慢 |
+| Momentum | 固定 | 深度网络 | 加速收敛 |
+| AdaGrad | 自适应 | 稀疏数据 | 历史梯度累积 |
+| RMSprop | 自适应 | RNN/非平稳 | 指数移动平均 |
+| **Adam** | 自适应 | **默认选择** | 综合最优 |
+| AdamW | 自适应 | NLP/大模型 | 更好的正则化 |
+| LAMB | 自适应 | 大 batch | 超大规模训练 |
+
+```mermaid
+graph TD
+    subgraph 选择优化器
+    A[任务类型] --> B{深度学习?}
+    B -->|否| C[SGD / Adam]
+    B -->|是| D{大规模预训练?}
+    D -->|是| E[AdamW / LAMB]
+    D -->|否| F{需要稳定?}
+    F -->|是| G[AdamW]
+    F -->|否| H[Adam / SGD with Momentum]
+    end
+
+    style E fill:#c8e6c9
+    style G fill:#c8e6c9
+```
+
+### 3.5.4 PyTorch 代码示例
+
+```python
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import matplotlib.pyplot as plt
+
+# 生成训练数据
+torch.manual_seed(42)
+X = torch.randn(200, 1) * 5
+y = 2 * X + 1 + torch.randn(200, 1)
+
+# 定义简单网络
+class SimpleNet(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc = nn.Linear(1, 1)
+    def forward(self, x):
+        return self.fc(x)
+
+# 不同优化器对比
+optimizers = {
+    'SGD': optim.SGD,
+    'Momentum': optim.SGD,
+    'RMSprop': optim.RMSprop,
+    'Adam': optim.Adam,
+    'AdamW': optim.AdamW,
+}
+
+params = {
+    'SGD': {'lr': 0.01},
+    'Momentum': {'lr': 0.01, 'momentum': 0.9},
+    'RMSprop': {'lr': 0.01, 'alpha': 0.99},
+    'Adam': {'lr': 0.01},
+    'AdamW': {'lr': 0.01, 'weight_decay': 0.01},
+}
+
+losses_dict = {}
+
+for name, OptClass in optimizers.items():
+    model = SimpleNet()
+    optimizer = OptClass(model.parameters(), **params[name])
+    criterion = nn.MSELoss()
+
+    losses = []
+    for epoch in range(100):
+        optimizer.zero_grad()
+        pred = model(X)
+        loss = criterion(pred, y)
+        loss.backward()
+        optimizer.step()
+        losses.append(loss.item())
+
+    losses_dict[name] = losses
+    print(f'{name}: Final Loss = {losses[-1]:.4f}')
+
+# 绘制收敛曲线
+plt.figure(figsize=(10, 6))
+for name, losses in losses_dict.items():
+    plt.plot(losses, label=name)
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.title('优化器对比')
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+```
+
+### 3.5.5 学习率调度器
+
+除了优化器，学习率调度器也很重要：
+
+| 调度器 | 描述 |
+|--------|------|
+| StepLR | 固定步长衰减 |
+| ExponentialLR | 指数衰减 |
+| CosineAnnealingLR | 余弦退火 |
+| ReduceLROnPlateau | 指标不降时衰减 |
+| Warmup | 预热策略 |
+
+---
+
+## 思考题
+
+1. 为什么 Adam 比 SGD 更受欢迎？
+2. AdamW 和 Adam 的区别是什么？
+3. 什么情况下应该使用 LAMB？
+
+---
+
+## 下一步
+
+下一章我们将讨论 Transformer 的前置知识，为学习 Transformer 做准备。
