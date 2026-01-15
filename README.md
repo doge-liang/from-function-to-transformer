@@ -1,56 +1,64 @@
 # from-function-to-transformer
 
-从函数到Transformer：一步步理解现代深度学习架构
+从函数到 Transformer：一步步理解现代深度学习架构
 
 ## 项目结构
 
 ```
 from-function-to-transformer/
-├── notebooks/           # Jupyter notebooks (交互式学习)
+├── docs/                    # Markdown 文档（系统学习）
+│   ├── 01-basics.md         # 基础概念
+│   ├── 02-neural-networks.md # 神经网络结构
+│   ├── 03-training.md       # 训练过程
+│   └── 04-next-steps.md     # 下一步与总结
+├── notebooks/               # Jupyter notebooks（交互式学习）
 │   └── from-function-to-transformer.ipynb
-├── draft-note.md        # 原始笔记
 └── README.md
 ```
 
-## 学习内容
+## 学习路线
 
-本项目从最基础的函数概念出发，逐步深入理解现代深度学习架构：
+```
+docs/01-basics.md       → 基础概念（函数、两种思维范式、激活函数）
+     ↓
+docs/02-neural-networks.md → 神经网络结构（层次结构、前向传播）
+     ↓
+docs/03-training.md     → 训练过程（损失函数、梯度下降、反向传播）
+     ↓
+docs/04-next-steps.md   → Transformer 前置知识与总结
+```
 
-### 核心概念
+## 文档内容
 
-| 章节 | 内容 |
-|------|------|
-| 1 | 两种思维范式：符号主义 vs 连接主义 |
-| 2 | 从线性到非线性：激活函数 (Sigmoid, ReLU) |
-| 3 | 神经网络结构详解：输入层、隐藏层、输出层 |
-| 4 | 前向传播 (Forward Propagation) |
-| 5 | 损失函数：均方误差 (MSE) |
-| 6 | 梯度下降算法与学习率 |
-| 7 | 反向传播与链式法则 |
-| 8 | 下一步：探索 Transformer |
+| 文件 | 章节 | 内容 |
+|------|------|------|
+| 01-basics.md | 1 | 用函数描述世界、符号主义 vs 连接主义、激活函数 |
+| 02-neural-networks.md | 2 | 网络层次结构、前向传播、代码实现 |
+| 03-training.md | 3 | 损失函数、梯度下降、反向传播 |
+| 04-next-steps.md | 4 | Transformer 前置知识、学习路线图 |
 
 ## 使用方法
 
-### 安装依赖
+### 文档学习
+
+直接阅读 `docs/` 目录下的 Markdown 文件，支持：
+- VS Code + Markdown Preview
+- Typora
+- GitHub/GitLab 在线预览
+
+### 交互式学习
 
 ```bash
-# 使用 uv (推荐)
+# 安装依赖
 uv pip install torch matplotlib numpy
 
-# 或使用 pip
-pip install torch matplotlib numpy
-```
-
-### 打开 Notebook
-
-```bash
-# 使用 Jupyter
+# 打开 Jupyter Notebook
 jupyter notebook notebooks/from-function-to-transformer.ipynb
-
-# 或使用 VS Code
-code notebooks/from-function-to-transformer.ipynb
 ```
 
 ## 参考资源
 
-- 待补充
+- 《深度学习》（Deep Learning）- Ian Goodfellow
+- 《神经网络与深度学习》- Michael Nielsen
+- "Attention Is All You Need"（Transformer 原始论文）
+- PyTorch 官方教程
