@@ -111,9 +111,13 @@ for batch_x, batch_y in loader:      # 每个 batch 32 个样本
 
 ### 3.2.2 Momentum（动量法）
 
-**提出者**：Rumelhart, Hinton, Williams
+**提出者**：实践中发展出的优化技术，常归功于 Rumelhart, Hinton, Williams
 
-**论文**：《Learning representations by back-propagating errors》, Nature 1986
+**论文**：《Learning representations by back-propagating errors》, Nature 1986（主要讲反向传播，Momentum 作为加速技巧提及）
+
+**历史来源**：
+- Polyak (1964) 最早提出类似动量的思想
+- 1986 年反向传播论文中引入深度学习社区
 
 $$v_{new} = \gamma \cdot v_{old} + \eta \cdot g$$
 $$W_{new} = W_{old} - v_{new}$$
