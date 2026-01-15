@@ -476,10 +476,10 @@ plt.show()
 
 ## 上一步
 
-先学习 [第三章：初始化](./03-3-initialization.md)，了解各种优化算法。
+先学习 [第五章：初始化](./05-3-initialization.md)，了解各种优化算法。
 
 ---
 
 ## 下一步
 
-下一章我们将讨论 Transformer 的前置知识，为学习 Transformer 做准备。
+下一章我们将讨论 Transformer 的前置知识：[06-next-steps](./06-next-steps.md)
