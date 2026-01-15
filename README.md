@@ -41,8 +41,8 @@ docs/04-next-steps.md          → Transformer 前置知识与总结
 
 | 文件 | 章节 | 内容 |
 |------|------|------|
-| 01-basics.md | 1 | 用函数描述世界、符号主义 vs 连接主义、激活函数 |
-| 02-neural-networks.md | 2 | 网络层次结构、前向传播、代码实现 |
+| 01-basics.md | 1 | 用函数描述世界、符号主义 vs 连接主义、激活函数、Softmax、N-gram |
+| 02-neural-networks.md | 2 | 网络层次结构、前向传播、词嵌入、Word2Vec、潜空间、CNN、卷积核、池化、RNN |
 | 03-1-training-basics.md | 3.1-3.4 | 损失函数、梯度下降、反向传播、完整训练流程 |
 | 03-2-optimizers.md | 3.2-3.3 | SGD, Momentum, NAG, Adam, AdamW, LAMB（含论文引用） |
 | 03-3-model-evaluation.md | 3.4-3.5 | 过拟合、正则化、Batch Size、超参数 |
