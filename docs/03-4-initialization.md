@@ -192,10 +192,11 @@ model.apply(init_xavier)
 ### 3.4.5 原理可视化
 
 ```mermaid
-graph TB
+%%{init: {'flowchart': {'htmlLabels': true}}}%%
+flowchart TB
     subgraph Xavier 初始化
     A[输入 x] --> B[方差 Var(x)]
-    B --> C[权重 W ~ N(0, 2/(n_in+n_out))]
+    B --> C["<img src='https://www.codecogs.com/svg.latex?W%20%5Csim%20N%5Cleft%280%2C%20%5Cfrac%7B2%7D%7Bn_%7Bin%7D%20%2B%20n_%7Bout%7D%7D%5Cright%29' />"]
     C --> D[输出 y = Wx]
     D --> E[方差 Var(y) ≈ Var(x)]
     end
@@ -203,6 +204,8 @@ graph TB
     style C fill:#c8e6c9
     style E fill:#c8e6c9
 ```
+
+**公式说明**：权重从高斯分布 $N\left(0, \frac{2}{n_{in} + n_{out}}\right)$ 中采样。
 
 ---
 
