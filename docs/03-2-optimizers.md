@@ -27,13 +27,13 @@
 
 **论文**：无特定论文，是机器学习基础算法
 
-$$W_t = W_{t-1} - \eta \cdot g_t$$
+$$W_t = W_{t-1} - \eta \cdot \nabla L(W_{t-1})$$
 
 **变量含义**：
 - $W_t$：第 $t$ 步的参数值
 - $W_{t-1}$：第 $t-1$ 步的参数值
 - $\eta$：学习率（learning rate），控制步长
-- $g_t$：第 $t$ 步计算的梯度
+- $\nabla L(W_{t-1})$：损失函数 $L$ 在 $W_{t-1}$ 处的梯度
 
 #### 3.2.1.1 三种梯度下降方式
 
@@ -123,7 +123,7 @@ for batch_x, batch_y in loader:      # 每个 batch 32 个样本
 - Polyak (1964) 最早提出类似动量的思想
 - 1986 年反向传播论文中引入深度学习社区
 
-$$v_t = \gamma \cdot v_{t-1} + \eta \cdot g_t$$
+$$v_t = \gamma \cdot v_{t-1} + \eta \cdot \nabla L(W_{t-1})$$
 $$W_t = W_{t-1} - v_t$$
 
 **变量含义**：
@@ -131,7 +131,7 @@ $$W_t = W_{t-1} - v_t$$
 - $v_{t-1}$：第 $t-1$ 步的动量
 - $\gamma$：动量系数（momentum coefficient），通常取 0.9
 - $\eta$：学习率
-- $g_t$：第 $t$ 步的梯度
+- $\nabla L(W_{t-1})$：损失函数在 $W_{t-1}$ 处的梯度
 
 **背景介绍**：Momentum 模拟物理中的动量概念。一个球从山坡滚下，不仅受当前重力（梯度）影响，还保持之前的速度。这使得：
 - 在一致方向上加速
@@ -159,10 +159,10 @@ graph LR
 
 **论文**：《Adaptive Subgradient Methods for Online Learning and Stochastic Optimization》, JMLR 2011
 
-$$W_t = W_{t-1} - \frac{\eta}{\sqrt{G_t + \epsilon}} \cdot g_t$$
+$$W_t = W_{t-1} - \frac{\eta}{\sqrt{G_t + \epsilon}} \cdot \nabla L(W_{t-1})$$
 
 **变量含义**：
-- $G_t = \sum_{i=1}^{t} g_i^2$：到第 $t$ 步为止，历史梯度的平方和累积
+- $G_t = \sum_{i=1}^{t} [\nabla L(W_{i-1})]^2$：到第 $t$ 步为止，历史梯度的平方和累积
 - $\epsilon$：防止除零的小常数，通常取 $10^{-8}$
 
 **背景介绍**：AdaGrad 的核心思想是"频繁出现的参数更新慢，稀疏的参数更新快"。这对于自然语言处理中的词嵌入等稀疏特征场景特别有效。
@@ -178,11 +178,11 @@ $$W_t = W_{t-1} - \frac{\eta}{\sqrt{G_t + \epsilon}} \cdot g_t$$
 
 **课程**：Stanford CS231n, Lecture 6
 
-$$E[g^2]_t = \rho \cdot E[g^2]_{t-1} + (1-\rho) \cdot g_t^2$$
-$$W_t = W_{t-1} - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} \cdot g_t$$
+$$E[g^2]_t = \rho \cdot E[g^2]_{t-1} + (1-\rho) \cdot [\nabla L(W_{t-1})]^2$$
+$$W_t = W_{t-1} - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} \cdot \nabla L(W_{t-1})$$
 
 **变量含义**：
-- $E[g^2]_t$：梯度的二阶矩（方差）的指数移动平均
+- $E[g^2]_t$：梯度平方的指数移动平均（用于自适应学习率）
 - $\rho$：衰减率（decay rate），通常取 0.99
 - $\epsilon$：防止除零的小常数
 
@@ -207,8 +207,8 @@ $$W_t = W_{t-1} - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} \cdot g_t$$
 
 结合 Momentum 和 RMSprop：
 
-$$m_t = \beta_1 \cdot m_{t-1} + (1-\beta_1) \cdot g_t \quad \text{（一阶矩估计 - 梯度均值）}$$
-$$v_t = \beta_2 \cdot v_{t-1} + (1-\beta_2) \cdot g_t^2 \quad \text{（二阶矩估计 - 梯度方差）}$$
+$$m_t = \beta_1 \cdot m_{t-1} + (1-\beta_1) \cdot \nabla L(W_{t-1}) \quad \text{（一阶矩估计 - 梯度均值）}$$
+$$v_t = \beta_2 \cdot v_{t-1} + (1-\beta_2) \cdot [\nabla L(W_{t-1})]^2 \quad \text{（二阶矩估计 - 梯度方差）}$$
 
 **偏差校正**（消除初始化偏差）：
 
