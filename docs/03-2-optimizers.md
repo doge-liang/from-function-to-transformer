@@ -29,16 +29,85 @@
 
 $$W_{new} = W_{old} - \eta \cdot g$$
 
-其中 $g$ 是梯度。
+其中 $g$ 是梯度，$\eta$ 是学习率。
 
-**特点**：
-- 简单直观，计算效率高
-- 收敛速度慢，容易陷入局部最优
-- 对学习率敏感
+#### 3.2.1.1 三种梯度下降方式
 
-**适用场景**：
-- 简单模型
-- 数据量大的在线学习
+| 类型 | 每批样本数 | 更新次数 | 特点 |
+|------|-----------|----------|------|
+| Batch GD | 全部数据（N个） | 1次/epoch | 梯度准确，但计算慢 |
+| **SGD** | **1个** | **N次/epoch** | 梯度噪声大，收敛震荡 |
+| **Mini-Batch** | **32/64/128** | **N/batch次/epoch** | **实际常用** |
+
+#### 3.2.1.2 SGD 具体步骤
+
+```
+for 每个 epoch:
+    随机打乱数据集
+
+    for 每个样本 (x_i, y_i):
+        前向传播 → 计算预测值
+        计算损失 → 计算梯度
+        更新参数
+```
+
+**简单代码示例**：
+
+```python
+# 假设拟合 y = 2x + 1
+w = 0.0
+b = 0.0
+lr = 0.01
+
+for epoch in range(1000):
+    # 随机选一个样本
+    idx = random.randint(0, len(X) - 1)
+    x_i, y_i = X[idx], y[idx]
+
+    # 前向传播
+    y_pred = w * x_i + b
+
+    # 计算损失和梯度
+    loss = (y_pred - y_i) ** 2
+    d_w = 2 * (y_pred - y_i) * x_i
+    d_b = 2 * (y_pred - y_i)
+
+    # 更新参数
+    w = w - lr * d_w
+    b = b - lr * d_b
+```
+
+#### 3.2.1.3 为什么需要 Mini-Batch SGD？
+
+**batch_size=1 的问题**：
+- 梯度噪声太大，收敛不稳定
+- GPU 利用率极低（浪费算力）
+
+**batch_size 选择指南**：
+
+| 场景 | batch_size |
+|------|------------|
+| 小数据集/调参 | 16, 32, 64 |
+| 标准选择 | 32, 64, 128 |
+| 大模型/显存足 | 256, 512, 1024 |
+| 超大规模预训练 | 2048, 4096, 8192 |
+
+#### 3.2.1.4 PyTorch Mini-Batch 示例
+
+```python
+from torch.utils.data import DataLoader
+
+# DataLoader 自动实现 Mini-Batch
+loader = DataLoader(dataset, batch_size=32, shuffle=True)  # shuffle=随机打乱
+
+for batch_x, batch_y in loader:      # 每个 batch 32 个样本
+    # PyTorch 自动计算 batch 的平均梯度
+    loss = criterion(model(batch_x), batch_y)
+    loss.backward()
+    optimizer.step()     # 用这个 batch 的梯度更新一次
+```
+
+**总结**：深度学习中说的 "SGD" 几乎都是 **Mini-Batch SGD**，真正的 batch_size=1 很少用。
 
 ### 3.2.2 Momentum（动量法）
 
