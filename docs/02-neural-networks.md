@@ -11,8 +11,8 @@
 ```mermaid
 graph TD
     subgraph 输入层
-    I1[x₁]
-    I2[x₂]
+    I1[x1]
+    I2[x2]
     end
 
     subgraph 隐藏层1
@@ -27,7 +27,7 @@ graph TD
     end
 
     subgraph 输出层
-    O1[ŷ]
+    O1[y_hat]
     end
 
     I1 --> H1
@@ -89,11 +89,11 @@ $$a^{(l)} = \text{激活函数}(z^{(l)})$$
 
 ```mermaid
 flowchart LR
-    X[输入 x] -->|"W¹"| Z1[z¹ = W¹x + b¹]
-    Z1 --> A1[a¹ = σ(z¹)]
-    A1 -->|"W²"| Z2[z² = W²a¹ + b²]
-    Z2 --> A2[a² = σ(z²)]
-    A2 --> Y[输出 ŷ]
+    X[输入 x] -->|"W1"| Z1[z1 = W1*x + b1]
+    Z1 --> A1[a1 = sigma(z1)]
+    A1 -->|"W2"| Z2[z2 = W2*a1 + b2]
+    Z2 --> A2[a2 = sigma(z2)]
+    A2 --> Y[输出 y_hat]
 
     style X fill:#e1f5fe
     style Y fill:#fff3e0
@@ -109,12 +109,12 @@ $$a = \sigma(z)$$
 
 ```mermaid
 graph LR
-    x1((x₁)) -->|"w₁"| sum1((+))
-    x2((x₂)) -->|"w₂"| sum1
-    x3((x₃)) -->|"w₃"| sum1
+    x1((x1)) -->|"w1"| sum1((+))
+    x2((x2)) -->|"w2"| sum1
+    x3((x3)) -->|"w3"| sum1
     b((b)) --> sum1
-    sum1 --> σ((σ))
-    σ --> a((a))
+    sum1 --> sigma((sigma))
+    sigma --> a((a))
 
     style x1 fill:#e1f5fe
     style x2 fill:#e1f5fe
@@ -134,18 +134,18 @@ graph LR
 ```mermaid
 flowchart LR
     subgraph 输入["输入层 (2)"]
-    x1[x₁]
-    x2[x₂]
+    x1[x1]
+    x2[x2]
     end
 
     subgraph 隐藏["隐藏层 (3)"]
-    h1[h₁]
-    h2[h₂]
-    h3[h₃]
+    h1[h1]
+    h2[h2]
+    h3[h3]
     end
 
     subgraph 输出["输出层 (1)"]
-    o[ŷ]
+    o[y_hat]
     end
 
     x1 --> h1

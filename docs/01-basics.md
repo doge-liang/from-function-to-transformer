@@ -61,7 +61,7 @@ graph TD
 ```mermaid
 flowchart LR
     A[输入数据 X] --> B[猜测函数 fθ]
-    B --> C[预测值 ŷ]
+    B --> C[预测值 y_hat]
     C --> D[计算误差 L]
     D --> E{调整参数}
     E --> B

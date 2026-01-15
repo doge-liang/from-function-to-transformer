@@ -112,8 +112,8 @@ $$\frac{\partial L}{\partial W} = \frac{\partial L}{\partial \hat{y}} \cdot \fra
 
 ```mermaid
 flowchart RL
-    L[L 损失] -->|"∂L/∂ŷ"| Y[ŷ 预测值]
-    Y -->|"∂ŷ/∂a"| A[a 激活值]
+    L[L 损失] -->|"∂L/∂y_hat"| Y[y_hat 预测值]
+    Y -->|"∂y_hat/∂a"| A[a 激活值]
     A -->|"∂a/∂z"| Z[z 线性输出]
     Z -->|"∂z/∂W"| W[W 权重]
 

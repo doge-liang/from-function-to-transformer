@@ -48,15 +48,15 @@ $$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)
 
 ```mermaid
 graph LR
-    subgraph 序列["输入序列 x₁, x₂, x₃, ..., xₙ"]
-    x1[x₁]
-    x2[x₂]
-    x3[x₃]
+    subgraph 序列["输入序列 x1, x2, x3, ..., xₙ"]
+    x1[x1]
+    x2[x2]
+    x3[x3]
     end
 
-    x1 -->|"关注所有"| out1[输出₁]
-    x2 -->|"关注所有"| out2[输出₂]
-    x3 -->|"关注所有"| out3[输出₃]
+    x1 -->|"关注所有"| out1[输出1]
+    x2 -->|"关注所有"| out2[输出2]
+    x3 -->|"关注所有"| out3[输出3]
 
     out1 --> final[上下文相关的表示]
     out2 --> final
