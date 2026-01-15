@@ -6,12 +6,13 @@
 
 ```
 from-function-to-transformer/
-├── docs/                    # Markdown 文档（系统学习）
-│   ├── 01-basics.md         # 基础概念
-│   ├── 02-neural-networks.md # 神经网络结构
-│   ├── 03-training.md       # 训练过程
-│   └── 04-next-steps.md     # 下一步与总结
-├── notebooks/               # Jupyter notebooks（交互式学习）
+├── docs/                       # Markdown 文档（系统学习）
+│   ├── 01-basics.md            # 基础概念
+│   ├── 02-neural-networks.md   # 神经网络结构
+│   ├── 03-1-training-basics.md # 训练过程（基础篇）
+│   ├── 03-2-training-advanced.md # 训练过程（进阶篇）
+│   └── 04-next-steps.md        # 下一步与总结
+├── notebooks/                  # Jupyter notebooks（交互式学习）
 │   └── from-function-to-transformer.ipynb
 └── README.md
 ```
@@ -19,13 +20,14 @@ from-function-to-transformer/
 ## 学习路线
 
 ```
-docs/01-basics.md       → 基础概念（函数、两种思维范式、激活函数）
+docs/01-basics.md              → 基础概念（函数、两种思维范式、激活函数）
      ↓
-docs/02-neural-networks.md → 神经网络结构（层次结构、前向传播）
+docs/02-neural-networks.md     → 神经网络结构（层次结构、前向传播）
      ↓
-docs/03-training.md     → 训练过程（损失函数、梯度下降、反向传播）
+docs/03-1-training-basics.md   → 训练过程（基础篇）：损失函数、梯度下降、反向传播
+docs/03-2-training-advanced.md → 训练过程（进阶篇）：优化器、过拟合、正则化
      ↓
-docs/04-next-steps.md   → Transformer 前置知识与总结
+docs/04-next-steps.md          → Transformer 前置知识与总结
 ```
 
 ## 文档内容
@@ -34,7 +36,8 @@ docs/04-next-steps.md   → Transformer 前置知识与总结
 |------|------|------|
 | 01-basics.md | 1 | 用函数描述世界、符号主义 vs 连接主义、激活函数 |
 | 02-neural-networks.md | 2 | 网络层次结构、前向传播、代码实现 |
-| 03-training.md | 3 | 损失函数、梯度下降、反向传播 |
+| 03-1-training-basics.md | 3.1-3.4 | 损失函数、梯度下降、反向传播、完整训练流程 |
+| 03-2-training-advanced.md | 3.5-3.6 | 优化器、过拟合、正则化、Batch Size、超参数 |
 | 04-next-steps.md | 4 | Transformer 前置知识、学习路线图 |
 
 ## 使用方法

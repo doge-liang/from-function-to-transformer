@@ -90,9 +90,9 @@ $$a^{(l)} = \text{激活函数}(z^{(l)})$$
 ```mermaid
 flowchart LR
     X[输入 x] -->|"W1"| Z1[z1 = W1*x + b1]
-    Z1 --> A1[a1 = sigma(z1)]
+    Z1 --> A1[a1 = sigma_z1]
     A1 -->|"W2"| Z2[z2 = W2*a1 + b2]
-    Z2 --> A2[a2 = sigma(z2)]
+    Z2 --> A2[a2 = sigma_z2]
     A2 --> Y[输出 y_hat]
 
     style X fill:#e1f5fe
