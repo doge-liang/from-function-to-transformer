@@ -27,9 +27,13 @@
 
 **论文**：无特定论文，是机器学习基础算法
 
-$$W_{new} = W_{old} - \eta \cdot g$$
+$$W_t = W_{t-1} - \eta \cdot g_t$$
 
-其中 $g$ 是梯度，$\eta$ 是学习率。
+**变量含义**：
+- $W_t$：第 $t$ 步的参数值
+- $W_{t-1}$：第 $t-1$ 步的参数值
+- $\eta$：学习率（learning rate），控制步长
+- $g_t$：第 $t$ 步计算的梯度
 
 #### 3.2.1.1 三种梯度下降方式
 
@@ -119,15 +123,20 @@ for batch_x, batch_y in loader:      # 每个 batch 32 个样本
 - Polyak (1964) 最早提出类似动量的思想
 - 1986 年反向传播论文中引入深度学习社区
 
-$$v_{new} = \gamma \cdot v_{old} + \eta \cdot g$$
-$$W_{new} = W_{old} - v_{new}$$
+$$v_t = \gamma \cdot v_{t-1} + \eta \cdot g_t$$
+$$W_t = W_{t-1} - v_t$$
 
-其中 $\gamma$ 通常取 0.9（动量系数）。
+**变量含义**：
+- $v_t$：第 $t$ 步的动量（velocity）
+- $v_{t-1}$：第 $t-1$ 步的动量
+- $\gamma$：动量系数（momentum coefficient），通常取 0.9
+- $\eta$：学习率
+- $g_t$：第 $t$ 步的梯度
 
-**核心思想**：
-- 模拟物理中的动量概念
-- 累积历史梯度信息
-- 加速收敛，减少震荡
+**背景介绍**：Momentum 模拟物理中的动量概念。一个球从山坡滚下，不仅受当前重力（梯度）影响，还保持之前的速度。这使得：
+- 在一致方向上加速
+- 在震荡方向上减速
+- 有助于跳出局部最优
 
 ```mermaid
 graph LR
@@ -150,9 +159,13 @@ graph LR
 
 **论文**：《Adaptive Subgradient Methods for Online Learning and Stochastic Optimization》, JMLR 2011
 
-$$W_{new} = W_{old} - \frac{\eta}{\sqrt{G + \epsilon}} \cdot g$$
+$$W_t = W_{t-1} - \frac{\eta}{\sqrt{G_t + \epsilon}} \cdot g_t$$
 
-其中 $G = \sum_{t=1}^{T} g_t^2$ 是历史梯度的平方和。
+**变量含义**：
+- $G_t = \sum_{i=1}^{t} g_i^2$：到第 $t$ 步为止，历史梯度的平方和累积
+- $\epsilon$：防止除零的小常数，通常取 $10^{-8}$
+
+**背景介绍**：AdaGrad 的核心思想是"频繁出现的参数更新慢，稀疏的参数更新快"。这对于自然语言处理中的词嵌入等稀疏特征场景特别有效。
 
 **特点**：
 - 自适应调整每个参数的学习率
@@ -165,10 +178,15 @@ $$W_{new} = W_{old} - \frac{\eta}{\sqrt{G + \epsilon}} \cdot g$$
 
 **课程**：Stanford CS231n, Lecture 6
 
-$$E[g^2]_{new} = \rho \cdot E[g^2]_{old} + (1-\rho) \cdot g^2$$
-$$W_{new} = W_{old} - \frac{\eta}{\sqrt{E[g^2]_{new} + \epsilon}} \cdot g$$
+$$E[g^2]_t = \rho \cdot E[g^2]_{t-1} + (1-\rho) \cdot g_t^2$$
+$$W_t = W_{t-1} - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} \cdot g_t$$
 
-其中 $\rho$ 通常取 0.99。
+**变量含义**：
+- $E[g^2]_t$：梯度的二阶矩（方差）的指数移动平均
+- $\rho$：衰减率（decay rate），通常取 0.99
+- $\epsilon$：防止除零的小常数
+
+**背景介绍**：RMSprop 由 Geoff Hinton 在 CS231n 课程中提出，是 AdaGrad 的改进版本。使用指数移动平均代替累积和，避免了学习率单调递减的问题。
 
 **特点**：
 - 使用指数移动平均替代累积和
@@ -189,16 +207,26 @@ $$W_{new} = W_{old} - \frac{\eta}{\sqrt{E[g^2]_{new} + \epsilon}} \cdot g$$
 
 结合 Momentum 和 RMSprop：
 
-$$m_{new} = \beta_1 \cdot m_{old} + (1-\beta_1) \cdot g \quad \text{(一阶矩估计)}$$
-$$v_{new} = \beta_2 \cdot v_{old} + (1-\beta_2) \cdot g^2 \quad \text{(二阶矩估计)}$$
+$$m_t = \beta_1 \cdot m_{t-1} + (1-\beta_1) \cdot g_t \quad \text{（一阶矩估计 - 梯度均值）}$$
+$$v_t = \beta_2 \cdot v_{t-1} + (1-\beta_2) \cdot g_t^2 \quad \text{（二阶矩估计 - 梯度方差）}$$
 
-**偏差校正**：
+**偏差校正**（消除初始化偏差）：
 
-$$\hat{m} = \frac{m_{new}}{1-\beta_1^t}, \quad \hat{v} = \frac{v_{new}}{1-\beta_2^t}$$
+$$\hat{m}_t = \frac{m_t}{1-\beta_1^t}, \quad \hat{v}_t = \frac{v_t}{1-\beta_2^t}$$
 
 **参数更新**：
 
-$$W_{new} = W_{old} - \frac{\eta}{\sqrt{\hat{v}} + \epsilon} \cdot \hat{m}$$
+$$W_t = W_{t-1} - \frac{\eta}{\sqrt{\hat{v}_t} + \epsilon} \cdot \hat{m}_t$$
+
+**变量含义**：
+- $m_t$：梯度的一阶矩（均值）的指数移动平均
+- $v_t$：梯度的二阶矩（方差）的指数移动平均
+- $\hat{m}_t, \hat{v}_t$：偏差校正后的一阶/二阶矩
+- $\beta_1$：一阶矩衰减系数，通常取 0.9
+- $\beta_2$：二阶矩衰减系数，通常取 0.999
+- $t$：当前迭代次数（用于偏差校正）
+
+**背景介绍**：Adam（Adaptive Moment Estimation）是 2014 年由 Kingma 和 Ba 提出的，至今已被引用超过 20 万次。它结合了 Momentum（处理梯度方向）和 RMSprop（处理梯度幅度）的优点。
 
 **默认参数**（论文推荐）：
 - $\eta = 0.001$
@@ -223,9 +251,12 @@ $$W_{new} = W_{old} - \frac{\eta}{\sqrt{\hat{v}} + \epsilon} \cdot \hat{m}$$
 **核心改进**：
 解耦权重衰减（weight decay）和 Adam 的自适应学习率
 
-$$W_{new} = W_{old} - \eta \cdot \left( \frac{\hat{m}}{\sqrt{\hat{v}} + \epsilon} + \lambda \cdot W_{old} \right)$$
+$$W_t = W_{t-1} - \eta \cdot \left( \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon} + \lambda \cdot W_{t-1} \right)$$
 
-其中 $\lambda$ 是权重衰减系数。
+**变量含义**：
+- $\lambda$：权重衰减系数（weight decay coefficient）
+
+**背景介绍**：原始 Adam 将 L2 正则化与自适应学习率耦合，导致正则化效果不稳定。AdamW 将权重衰减解耦出来，提供了更好的正则化效果，成为 Hugging Face Transformers 库的默认优化器。
 
 **为什么需要 AdamW？**
 - 原始 Adam 的权重衰减与自适应学习率耦合
@@ -247,7 +278,12 @@ $$W_{new} = W_{old} - \eta \cdot \left( \frac{\hat{m}}{\sqrt{\hat{v}} + \epsilon
 
 **核心公式**：
 
-$$W_{new} = W_{old} - \frac{\eta}{\|W_{old}\|} \cdot \frac{\hat{m}}{\sqrt{\hat{v}} + \epsilon}$$
+$$W_t = W_{t-1} - \frac{\eta}{\|W_{t-1}\|} \cdot \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon}$$
+
+**变量含义**：
+- $\|W_{t-1}\|$：参数 $W_{t-1}$ 的 L2 范数（欧几里得范数）
+
+**背景介绍**：LAMB（Layer-wise Adaptive Moments optimizer for Batch training）是 2019 年由 You 等人提出的，专门用于大批量训练。通过层-wise 的学习率缩放，可以稳定训练超大 batch（如 8k~32k）的模型。著名的成果是在 76 分钟内训练完 BERT。
 
 **关键改进**：
 - 层-wise 学习率缩放
