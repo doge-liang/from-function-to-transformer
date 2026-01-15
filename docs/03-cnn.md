@@ -106,7 +106,7 @@ graph LR
     end
 
     subgraph 输出
-    m[3]
+    m[3]  <!-- Max Pooling 结果 -->
     end
 
     p1 --> m
