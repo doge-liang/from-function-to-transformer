@@ -153,7 +153,52 @@ graph LR
 - 减少参数更新的震荡
 - 有助于跳出局部最优
 
-### 3.2.3 AdaGrad（自适应梯度）
+### 3.2.3 NAG（Nesterov 加速梯度）
+
+**提出者**：Yurii Nesterov
+
+**论文**：《A method of solving a convex programming problem with convergence rate O(1/k^2)》, 1983
+
+**核心思想**：NAG 是 Momentum 的改进变体。Momentum 先计算当前梯度，再用动量更新；NAG 先用动量"预测"下一步位置，在那里计算梯度，再更新。
+
+**公式**：
+
+$$v_t = \gamma \cdot v_{t-1} + \eta \cdot \nabla L(W_{t-1} - \gamma \cdot v_{t-1})$$
+$$W_t = W_{t-1} - v_t$$
+
+**变量含义**：
+- $W_{t-1} - \gamma \cdot v_{t-1}$：根据动量预测的"下一步位置"
+- 先在预测位置计算梯度，再更新动量和参数
+
+**背景介绍**：Nesterov 在 1983 年的论文中提出了这个加速技巧。关键洞察是：如果我们知道会往某个方向移动，就先"看"一眼那个方向的山坡，再决定怎么走。
+
+**Momentum vs NAG 对比**：
+
+| 步骤 | 标准 Momentum | NAG |
+|------|---------------|-----|
+| 1 | 在 $W_{t-1}$ 处计算梯度 $\nabla L(W_{t-1})$ | 先走到预判位置 $W_{t-1} - \gamma v_{t-1}$ |
+| 2 | 更新动量 $v_t = \gamma v_{t-1} + \eta \nabla L$ | 在预判位置计算梯度 $\nabla L(W_{t-1} - \gamma v_{t-1})$ |
+| 3 | 更新参数 $W_t = W_{t-1} - v_t$ | 更新动量 $v_t = \gamma v_{t-1} + \eta \nabla L_{\text{预判}}$ |
+| 4 | - | 更新参数 $W_t = W_{t-1} - v_t$ |
+
+**为什么 NAG 更好？**
+- 减少了 Momentum 的"过冲"（overshoot）问题
+- 在凸优化上有更好的收敛率
+- 实际训练中更稳定
+
+**PyTorch 实现**：
+
+```python
+# 使用 torch.optim.SGD 时开启 Nesterov
+optimizer = optim.SGD(
+    model.parameters(),
+    lr=0.01,
+    momentum=0.9,
+    nesterov=True  # 开启 NAG
+)
+```
+
+### 3.2.4 AdaGrad（自适应梯度）
 
 **提出者**：John Duchi, Elad Hazan, Yoram Singer
 
@@ -193,7 +238,7 @@ $$W_t = W_{t-1} - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} \cdot \nabla L(W_{t-1}
 - 解决 AdaGrad 学习率衰减过快问题
 - 适合非平稳目标和 RNN
 
-### 3.2.5 Adam（自适应矩估计）
+### 3.2.6 Adam（自适应矩估计）
 
 **提出者**：Diederik P. Kingma, Jimmy Ba
 
@@ -240,7 +285,7 @@ $$W_t = W_{t-1} - \frac{\eta}{\sqrt{\hat{v}_t} + \epsilon} \cdot \hat{m}_t$$
 - 对超参数不敏感
 - 适用于大多数深度学习任务
 
-### 3.2.6 AdamW（带权重衰减的 Adam）
+### 3.2.7 AdamW（带权重衰减的 Adam）
 
 **提出者**：Ilya Loshchilov, Frank Hutter
 
@@ -268,7 +313,7 @@ $$W_t = W_{t-1} - \eta \cdot \left( \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon
 - 训练更稳定
 - 泛化性能更好
 
-### 3.2.7 LAMB（Layer-wise Adaptive Moments optimizer）
+### 3.2.8 LAMB（Layer-wise Adaptive Moments optimizer）
 
 **提出者**：Yang You, Jing Li, Hsiang-Fu Yu 等
 
@@ -298,7 +343,7 @@ $$W_t = W_{t-1} - \frac{\eta}{\|W_{t-1}\|} \cdot \frac{\hat{m}_t}{\sqrt{\hat{v}_
 - 大规模分布式训练
 - 预训练大模型
 
-### 3.2.8 其他优化器
+### 3.2.9 其他优化器
 
 | 优化器 | 提出者/论文 | 特点 |
 |--------|-------------|------|
