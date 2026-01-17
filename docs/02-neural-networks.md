@@ -53,12 +53,12 @@ graph TD
 
 ### 术语解释
 
-| 层次 | 英文 | 说明 |
-|------|------|------|
-| 输入层 | Input Layer | 接收原始数据 |
+| 层次   | 英文         | 说明                           |
+| ------ | ------------ | ------------------------------ |
+| 输入层 | Input Layer  | 接收原始数据                   |
 | 隐藏层 | Hidden Layer | 中间的计算层，不直接与外界交互 |
-| 输出层 | Output Layer | 产生最终预测结果 |
-| 神经元 | Neuron | 每个圆圈代表一个神经元 |
+| 输出层 | Output Layer | 产生最终预测结果               |
+| 神经元 | Neuron       | 每个圆圈代表一个神经元         |
 
 ### 重要概念
 
@@ -78,26 +78,17 @@ graph TD
 
 $$z^{(l)} = W^{(l)} \cdot a^{(l-1)} + b^{(l)}$$
 
-$$a^{(l)} = \text{激活函数}(z^{(l)})$$
+$$a^{(l)} = \phi(z^{(l)})$$
 
 其中：
+
 - $W^{(l)}$：第 $l$ 层的权重矩阵
 - $b^{(l)}$：第 $l$ 层的偏置向量
 - $a^{(l-1)}$：第 $l-1$ 层的输出
 
 ### 2.2.2 前向传播流程
 
-```mermaid
-flowchart LR
-    X[输入 x] -->|"W1"| Z1[z1 = W1*x + b1]
-    Z1 --> A1[a1 = sigma_z1]
-    A1 -->|"W2"| Z2[z2 = W2*a1 + b2]
-    Z2 --> A2[a2 = sigma_z2]
-    A2 --> Y[输出 y_hat]
-
-    style X fill:#e1f5fe
-    style Y fill:#fff3e0
-```
+!["Forward Prapagation"](assets/forward-prapagation.svg)
 
 ### 2.2.3 单个神经元的计算
 
@@ -107,61 +98,19 @@ $$z = w_1 x_1 + w_2 x_2 + ... + w_n x_n + b$$
 
 $$a = \sigma(z)$$
 
-```mermaid
-graph LR
-    x1((x1)) -->|"w1"| sum1((+))
-    x2((x2)) -->|"w2"| sum1
-    x3((x3)) -->|"w3"| sum1
-    b((b)) --> sum1
-    sum1 --> sigma((sigma))
-    sigma --> a((a))
-
-    style x1 fill:#e1f5fe
-    style x2 fill:#e1f5fe
-    style x3 fill:#e1f5fe
-    style a fill:#fff3e0
-```
+!["Single Neural Unit"](assets/single-neural-unit.svg)
 
 ---
 
 ## 2.3 完整的前向传播示例
 
 假设有一个简单的两层神经网络：
+
 - 输入层：2 个神经元
 - 隐藏层：3 个神经元（ReLU 激活）
 - 输出层：1 个神经元（Sigmoid 激活）
 
-```mermaid
-flowchart LR
-    subgraph 输入["输入层 (2)"]
-    x1[x1]
-    x2[x2]
-    end
-
-    subgraph 隐藏["隐藏层 (3)"]
-    h1[h1]
-    h2[h2]
-    h3[h3]
-    end
-
-    subgraph 输出["输出层 (1)"]
-    o[y_hat]
-    end
-
-    x1 --> h1
-    x1 --> h2
-    x1 --> h3
-    x2 --> h1
-    x2 --> h2
-    x2 --> h3
-    h1 --> o
-    h2 --> o
-    h3 --> o
-
-    style 输入 fill:#e1f5fe
-    style 隐藏 fill:#f3e5f5
-    style 输出 fill:#fff3e0
-```
+!["Forward Two Layer Demo"](assets/forward-two-layer-demo.svg)
 
 ---
 

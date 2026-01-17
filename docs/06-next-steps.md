@@ -39,6 +39,8 @@ graph LR
     style O fill:#c8e6c9
 ```
 
+![Attention Mechanism](assets/attention.svg)
+
 **公式**：
 $$\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
 

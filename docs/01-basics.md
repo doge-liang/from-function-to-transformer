@@ -59,6 +59,7 @@ graph TD
 **核心思路**：
 
 ```mermaid
+%%{init: {'graph': {'htmlLabels': true}}}%%
 flowchart LR
     A[输入数据 X] --> B[猜测函数 fθ]
     B --> C[预测值 y_hat]

@@ -33,3 +33,17 @@ target/
 .DS_Store
 Thumbs.db
 .ipynb_checkpoints/
+
+# LaTeX temporary files
+*.aux
+*.log
+*.dvi
+*.pdf
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# Node.js
+node_modules/
+
+nul
