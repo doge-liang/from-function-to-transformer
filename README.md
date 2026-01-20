@@ -103,6 +103,43 @@ uv pip install torch matplotlib numpy
 jupyter notebook notebooks/from-function-to-transformer.ipynb
 ```
 
+### 图表生成（TikZ）
+
+本项目的 TikZ 生成依赖系统工具 `lualatex` + `dvisvgm`（或备选 `pdf2svg`）。
+
+Windows（PowerShell / CMD）：
+```bash
+winget install MiKTeX.MiKTeX
+# 或
+choco install miktex
+```
+
+macOS（Homebrew）：
+```bash
+brew install --cask mactex-no-gui
+# 或完整版
+brew install --cask mactex
+```
+
+Ubuntu/Debian：
+```bash
+sudo apt update
+sudo apt install texlive-luatex texlive-latex-extra texlive-fonts-recommended dvisvgm
+# 或一次装全套（体积较大）
+sudo apt install texlive-full dvisvgm
+```
+
+验证：
+```bash
+lualatex --version
+dvisvgm --version
+```
+
+生成命令：
+```bash
+npm run tikz
+npm run tikz:pdf2svg
+```
 ## 参考资源
 
 - 《深度学习》（Deep Learning）- Ian Goodfellow
