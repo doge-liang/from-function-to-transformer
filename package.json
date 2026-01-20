@@ -9,9 +9,7 @@
     "mermaid": "for %f in (charts/mermaid/*.mmd) do npx mmdc -i %f -o docs/assets/%~nf.svg",
     "mermaid:watch": "mmdc -i charts/mermaid/*.mmd -o docs/assets/ --watch"
   },
-  "dependencies": {
-    "katex": "^0.16.27"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^11.12.0"
   }

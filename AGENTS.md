@@ -23,10 +23,6 @@ npm run tikz:pdf2svg            # Alternative using pdf2svg
 # Generate Mermaid diagrams
 npm run mermaid                 # Generate all Mermaid diagrams
 npm run mermaid:watch           # Watch mode for auto-recompilation
-
-# Render LaTeX formulas to SVG (for Mermaid)
-python scripts/render-formula.py "\mathbf{W}_1"
-python scripts/render-formula.py "\frac{1}{2}" --display -o custom.svg
 ```
 
 ### Python Scripts
@@ -119,11 +115,6 @@ args = parser.parse_args()
 
 ### Markdown Documentation
 
-**Formula Rendering**:
-- Use `scripts/render-formula.py` to generate SVG from LaTeX
-- Output to `docs/assets/{hash}.svg`
-- Reference in Mermaid: `X["<img src='docs/assets/hash.svg' />"]`
-
 **Diagrams**:
 - Simple flowcharts: Mermaid in `charts/mermaid/*.mmd`
 - Complex architectures: TikZ in `charts/tikz/*.tex`
@@ -132,14 +123,12 @@ args = parser.parse_args()
 **Math Notation**:
 - Inline: `$E = mc^2$`
 - Display: `$$E = mc^2$$`
-- For Mermaid integration, use `render-formula.py`
 
 ### File Organization
 
 ```
 scripts/              # Python utility scripts
   generate-tikz.py    # TikZ diagram generation
-  render-formula.py  # LaTeX formula to SVG
 
 charts/               # Diagram source files
   tikz/*.tex         # LaTeX/TikZ diagrams
@@ -160,7 +149,6 @@ notebooks/            # Jupyter notebooks
 - Optional: `torch matplotlib numpy` for notebooks
 
 **Node.js**:
-- `katex` - Formula rendering
 - `@mermaid-js/mermaid-cli` - Mermaid diagrams
 
 **System Tools**:
@@ -225,12 +213,6 @@ def run_command(cmd: list[str], timeout: int = 60) -> tuple[bool, str]:
 3. Use consistent heading levels (##, ###)
 4. Add diagrams where helpful
 5. Test rendering in Markdown preview
-
-**New Formula**:
-1. Use `render-formula.py` to generate SVG
-2. Note the hash output
-3. Reference hash in Mermaid diagrams
-4. Commit SVG to git
 
 ## Before Committing
 

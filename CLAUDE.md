@@ -15,36 +15,6 @@ This is a learning project under the AI Learning project hub.
 
 No specific commands configured yet.
 
-## Mermaid 公式处理
-
-### 本地存储
-- 公式 SVG 保存在 `docs/assets/` 目录
-- 文件名格式：`{hash}.svg`（基于公式内容的 MD5 hash）
-
-### 生成方式
-使用 `scripts/render-formula.py` 生成真正的 SVG（含 `<path>` 元素）：
-
-```bash
-# 前置依赖
-pip install matplotlib
-
-# 生成公式 SVG
-python scripts/render-formula.py "\\mathbf{W}_1"
-# 输出: docs/assets/d069d67e.svg
-```
-
-### Mermaid 引用格式
-```mermaid
-flowchart LR
-    X["<img src='docs/assets/d069d67e.svg' />"] --> Y["<img src='docs/assets/93b05c90.svg' />"]
-```
-
-### 规则
-1. 新公式使用 Python 脚本生成 SVG
-2. 复用已有公式（相同 hash 不重复渲染）
-3. SVG 随项目提交到 Git
-4. 使用 Matplotlib 生成真正的 SVG 格式，避免 HTML+MathML 混合内容导致显示问题
-
 ## TikZ 图表处理
 
 ### 目录结构
