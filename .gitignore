@@ -46,4 +46,4 @@ Thumbs.db
 # Node.js
 node_modules/
 
-nul
+.serena/
