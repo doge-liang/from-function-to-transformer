@@ -4,7 +4,7 @@
 
 ## 项目结构
 
-```
+```plaintext
 from-function-to-transformer/
 ├── docs/                       # Markdown 文档（系统学习）
 │   ├── 01-from-function-to-neural-network.md
@@ -60,7 +60,7 @@ from-function-to-transformer/
 
 ### 快速入门（1-2周）
 
-```
+```plaintext
 01-04: 深度学习基础
 ├─ 函数思维到神经网络
 ├─ 网络结构与前向传播
@@ -70,7 +70,7 @@ from-function-to-transformer/
 
 ### 系统学习（8-12周）
 
-```
+```plaintext
 Part I: 深度学习基础（第1-4周）
 ├─ 01-from-function-to-neural-network.md
 ├─ 02-deep-neural-networks.md
@@ -99,7 +99,7 @@ Part IV: 前沿与强化学习（第13-17周）
 
 ### 计算机视觉方向（6-8周）
 
-```
+```plaintext
 01-04: 深度学习基础
 05-convolutional-networks.md
 06-recurrent-networks.md（可选）
@@ -109,7 +109,7 @@ Part IV: 前沿与强化学习（第13-17周）
 
 ### 自然语言处理方向（6-8周）
 
-```
+```plaintext
 01-04: 深度学习基础
 06-recurrent-networks.md
 07-attention-mechanisms.md
@@ -121,7 +121,7 @@ Part IV: 前沿与强化学习（第13-17周）
 
 ### 深度研究（3个月+）
 
-```
+```plaintext
 完整学习 + 源码阅读 + 论文研读
 重点关注: 08-transformer-architecture.md, 12-large-language-models.md
 实践项目: 从0到1实现一个LLM
