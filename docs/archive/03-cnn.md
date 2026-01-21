@@ -158,6 +158,7 @@ flowchart TB
 $$(f * g)(i, j) = \sum_{m=-k}^{k} \sum_{n=-k}^{k} f(i+m, j+n) \cdot g(m, n)$$
 
 其中：
+
 - $f$ 是输入图像
 - $g$ 是卷积核
 - $k$ 是卷积核半径（3×3 则 k=1）

@@ -18,12 +18,14 @@ No specific commands configured yet.
 ## TikZ 图表处理
 
 ### 目录结构
-```
+
+```plaintext
 charts/tikz/*.tex          # TikZ 源文件
 docs/assets/*.svg          # 生成的 SVG 文件
 ```
 
 ### 命令
+
 ```bash
 # 生成所有 TikZ 图表
 npm run tikz
@@ -36,12 +38,14 @@ npm run tikz:pdf2svg
 ```
 
 ### 前置依赖
+
 - **LaTeX 发行版** (lualatex + dvisvgm)
-  - Windows: MiKTeX (https://miktex.org/)
+  - Windows: MiKTeX (<https://miktex.org/>)
   - Mac: TeX Live via Homebrew (`brew install --cask mactex`)
   - Linux: `sudo apt install texlive-latex-extra lualatex dvisvgm`
 
 ### 添加新图表
+
 1. 在 `charts/tikz/` 创建 `.tex` 文件
 2. 运行 `npm run tikz` 生成 SVG
 3. 在文档中引用：`![](docs/assets/{图表名}.svg)`
@@ -49,6 +53,7 @@ npm run tikz:pdf2svg
 ## Mermaid 图表处理
 
 ### 工具定位
+
 ```
 ┌─────────────────────────────────────────────────────────┐
 │  简单流程图 → Mermaid（代码驱动，易维护）                │
@@ -58,12 +63,14 @@ npm run tikz:pdf2svg
 ```
 
 ### 目录结构
-```
+
+```plaintext
 charts/mermaid/*.mmd      # Mermaid 源文件
 docs/assets/*.svg         # 生成的 SVG 文件
 ```
 
 ### 命令
+
 ```bash
 # 生成所有 Mermaid 图表
 npm run mermaid
@@ -73,9 +80,11 @@ npm run mermaid:watch
 ```
 
 ### 前置依赖
+
 - **Mermaid CLI**: `npm install --save-dev @mermaid-js/mermaid-cli`
 
 ### 添加新图表
+
 1. 在 `charts/mermaid/` 创建 `.mmd` 文件
 2. 运行 `npm run mermaid` 生成 SVG
 3. 在文档中引用：`![](docs/assets/{图表名}.svg)`

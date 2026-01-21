@@ -111,16 +111,16 @@ W = torch.randn(n_in, n_out) * 0.01
 
 **问题**：
 
--   对于深层网络，"0.01" 的尺度仍然太小或太大
--   没有考虑激活函数的特性
+- 对于深层网络，"0.01" 的尺度仍然太小或太大
+- 没有考虑激活函数的特性
 
 ### 3.3.2 为什么简单随机初始化不够？
 
 假设 Sigmoid 激活函数：
 
--   当 $|x|$ 较大时，Sigmoid 梯度接近 0
--   如果初始权重使 $|W x|$ 很大，神经元会饱和
--   梯度无法有效传播
+- 当 $|x|$ 较大时，Sigmoid 梯度接近 0
+- 如果初始权重使 $|W x|$ 很大，神经元会饱和
+- 梯度无法有效传播
 
 ---
 
@@ -132,7 +132,7 @@ W = torch.randn(n_in, n_out) * 0.01
 
 **论文**：《Understanding the difficulty of training deep feedforward neural networks》, AISTATS 2010
 
-**论文链接**：https://proceedings.mlr.press/v9/glorot10a.html
+**论文链接**：<https://proceedings.mlr.press/v9/glorot10a.html>
 
 **核心思想**：让输入和输出的方差保持一致
 
@@ -146,8 +146,8 @@ $$W \sim N\left(0, \frac{2}{n_{in} + n_{out}}\right)$$
 
 **变量含义**：
 
--   $n_{in}$：输入神经元数量
--   $n_{out}$：输出神经元数量
+- $n_{in}$：输入神经元数量
+- $n_{out}$：输出神经元数量
 
 ### 3.4.3 适用场景
 
@@ -219,7 +219,7 @@ flowchart TB
 
 **论文**：《Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification》, ICCV 2015
 
-**论文链接**：https://arxiv.org/abs/1502.01852
+**论文链接**：<https://arxiv.org/abs/1502.01852>
 
 **核心思想**：针对 ReLU 激活函数的特殊性设计
 
@@ -233,15 +233,15 @@ $$W \sim N\left(0, \frac{2}{(1 + \alpha^2)n_{in}}\right)$$
 
 **变量含义**：
 
--   $n_{in}$：输入神经元数量
--   $\alpha$：Leaky ReLU 的负斜率（通常 0.01）
+- $n_{in}$：输入神经元数量
+- $\alpha$：Leaky ReLU 的负斜率（通常 0.01）
 
 ### 3.5.3 为什么 ReLU 需要特殊初始化？
 
 ReLU 的特性：$f(x) = \max(0, x)$
 
--   一半的输入被置为 0（方差减半）
--   需要将初始方差加倍来补偿
+- 一半的输入被置为 0（方差减半）
+- 需要将初始方差加倍来补偿
 
 ```mermaid
 graph LR
@@ -483,4 +483,3 @@ graph TD
 继续学习 [第三章：模型评估](03-4-model-evaluation.md)，了解过拟合、正则化和超参数调优。
 
 或继续学习 [第四章-next-steps](./04-next-steps.md)，了解 Transformer 前置知识。
-

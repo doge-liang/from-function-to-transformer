@@ -7,10 +7,14 @@
     "tikz:watch": "python scripts/generate-tikz.py --watch",
     "tikz:pdf2svg": "python scripts/generate-tikz.py --pdf2svg",
     "mermaid": "for %f in (charts/mermaid/*.mmd) do npx mmdc -i %f -o docs/assets/%~nf.svg",
-    "mermaid:watch": "mmdc -i charts/mermaid/*.mmd -o docs/assets/ --watch"
+    "mermaid:watch": "mmdc -i charts/mermaid/*.mmd -o docs/assets/ --watch",
+    "lint": "npm run lint:md",
+    "lint:md": "markdownlint-cli2 'docs/**/*.md' '*.md'",
+    "lint:md:fix": "markdownlint-cli2 'docs/**/*.md' '*.md' --fix"
   },
   "dependencies": {},
   "devDependencies": {
-    "@mermaid-js/mermaid-cli": "^11.12.0"
+    "@mermaid-js/mermaid-cli": "^11.12.0",
+    "markdownlint-cli2": "^0.14.0"
   }
 }

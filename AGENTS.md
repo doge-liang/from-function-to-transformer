@@ -46,11 +46,22 @@ jupyter notebook notebooks/from-function-to-transformer.ipynb
 
 **Testing**: This project has no formal test suite. Verify visual outputs manually.
 
+### Markdown Linting
+
+```bash
+# Check markdown style
+npm run lint:md
+
+# Auto-fix markdown issues
+npm run lint:md:fix
+```
+
 ## Code Style Guidelines
 
 ### Python Scripts
 
 **File Structure**:
+
 - Shebang line: `#!/usr/bin/env python3`
 - Module docstring with usage examples
 - Imports grouped: stdlib → third-party → local
@@ -60,6 +71,7 @@ jupyter notebook notebooks/from-function-to-transformer.ipynb
 - Classes use `PascalCase`
 
 **Imports**:
+
 ```python
 import argparse
 import subprocess
@@ -68,11 +80,13 @@ from pathlib import Path
 ```
 
 **Type Hints**:
+
 ```python
 def render_to_svg(formula: str, output_path: Path, display_mode: bool, width: int | None, height: int | None) -> bool:
 ```
 
 **Error Handling**:
+
 ```python
 try:
     result = subprocess.run([...], capture_output=True, timeout=60)
@@ -88,12 +102,14 @@ except FileNotFoundError as e:
 ```
 
 **Path Operations**:
+
 - Use `pathlib.Path` for all file operations
 - `Path(__file__).resolve().parent.parent` to get project root
 - `path.mkdir(parents=True, exist_ok=True)` for directory creation
 - `path.write_text(content, encoding='utf-8')` for file writing
 
 **CLI Arguments**:
+
 ```python
 import argparse
 
@@ -104,11 +120,13 @@ args = parser.parse_args()
 ```
 
 **Subprocess Execution**:
+
 - Use `subprocess.run()` with `capture_output=True` and `timeout`
 - Check `returncode` and decode stderr/stdout
 - Provide clear error messages
 
 **Logging**:
+
 - Use `print()` for user-facing output (not logging module)
 - Format: `[OK] file -> output` or `[FAIL] file: error message`
 - Progress indicators for batch operations
@@ -116,17 +134,19 @@ args = parser.parse_args()
 ### Markdown Documentation
 
 **Diagrams**:
+
 - Simple flowcharts: Mermaid in `charts/mermaid/*.mmd`
 - Complex architectures: TikZ in `charts/tikz/*.tex`
 - Reference: `![](docs/assets/{filename}.svg)`
 
 **Math Notation**:
+
 - Inline: `$E = mc^2$`
 - Display: `$$E = mc^2$$`
 
 ### File Organization
 
-```
+```plaintext
 scripts/              # Python utility scripts
   generate-tikz.py    # TikZ diagram generation
 
@@ -145,24 +165,32 @@ notebooks/            # Jupyter notebooks
 ## Dependencies
 
 **Python**:
+
 - Standard library only (scripts are self-contained)
 - Optional: `torch matplotlib numpy` for notebooks
 
 **Node.js**:
+
 - `@mermaid-js/mermaid-cli` - Mermaid diagrams
+- `markdownlint-cli2` (dev) - Markdown linting
 
 **System Tools**:
+
 - `lualatex` and `dvisvgm` (or `pdf2svg`) for TikZ
 - `npx` for Node package execution
 
 ## No Formal Tooling
 
-**Linting**: No linters configured (ruff, pylint, black, etc.)
+**Linting**:
+
+- Markdown: `markdownlint-cli2` configured (check `npm run lint:md`)
+- Python: No linters configured (ruff, pylint, black, etc.)
 **Testing**: No test framework (pytest, unittest)
 **Formatting**: No auto-formatting tools
 **CI/CD**: No GitHub Actions or similar
 
 **Manual Verification**:
+
 - Run scripts and check console output
 - Inspect generated SVGs visually
 - Review Markdown rendering in VS Code/Typora/GitHub
@@ -179,12 +207,14 @@ notebooks/            # Jupyter notebooks
 ## Common Patterns
 
 **Project Root Resolution**:
+
 ```python
 def get_project_root() -> Path:
     return Path(__file__).resolve().parent.parent
 ```
 
 **Command Execution Wrapper**:
+
 ```python
 def run_command(cmd: list[str], timeout: int = 60) -> tuple[bool, str]:
     try:
@@ -195,6 +225,7 @@ def run_command(cmd: list[str], timeout: int = 60) -> tuple[bool, str]:
 ```
 
 **Output Formatting**:
+
 - Clear status prefixes: `[OK]`, `[FAIL]`, `[ERROR]`, `[TIMEOUT]`
 - Include source and destination in success messages
 - Truncate error output to console spam
@@ -202,12 +233,14 @@ def run_command(cmd: list[str], timeout: int = 60) -> tuple[bool, str]:
 ## Adding New Content
 
 **New Diagram**:
+
 1. Create source file in `charts/tikz/` or `charts/mermaid/`
 2. Run generation command
 3. Verify output in `docs/assets/`
 4. Reference in Markdown using appropriate format
 
 **New Documentation**:
+
 1. Create `.md` file in `docs/`
 2. Follow existing structure with numbered chapters
 3. Use consistent heading levels (##, ###)
@@ -217,7 +250,8 @@ def run_command(cmd: list[str], timeout: int = 60) -> tuple[bool, str]:
 ## Before Committing
 
 1. Run generation commands for all modified diagrams
-2. Verify generated SVGs display correctly
-3. Check Markdown rendering
-4. Ensure all new SVGs are in `docs/assets/`
-5. No temporary LaTeX files (should be in .gitignore)
+2. Run markdown linting: `npm run lint:md` (fix with `npm run lint:md:fix`)
+3. Verify generated SVGs display correctly
+4. Check Markdown rendering
+5. Ensure all new SVGs are in `docs/assets/`
+6. No temporary LaTeX files (should be in .gitignore)
