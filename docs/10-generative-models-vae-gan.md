@@ -1,6 +1,5 @@
 # 第十章：生成式模型（一）VAE与GAN
 
-
 > 从变分推断到对抗训练
 
 ---
@@ -29,7 +28,6 @@ flowchart LR
     style C fill:#c8e6c9
     style D fill:#c8e6c9
 ```
-
 
 ---
 
@@ -83,7 +81,6 @@ def reparameterize(mu, log_var):
     eps = torch.randn_like(std)
     return mu + std * eps
 ```
-
 
 ### 10.2.5 PyTorch实现
 
@@ -153,7 +150,6 @@ loss = model.loss_function(x_recon, x, mu, log_var)
 print(f"损失: {loss.item():.2f}")
 ```
 
-
 ### 10.2.6 生成新样本
 
 ```python
@@ -168,7 +164,6 @@ with torch.no_grad():
     plt.axis('off')
     plt.show()
 ```
-
 
 ---
 
@@ -277,7 +272,6 @@ for epoch in range(100):
 
     print(f"Epoch {epoch}: D Loss={d_loss.item():.4f}, G Loss={g_loss.item():.4f}")
 ```
-
 
 ---
 

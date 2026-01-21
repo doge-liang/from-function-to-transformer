@@ -1,6 +1,5 @@
 # 第七章：注意力机制
 
-
 > 让模型学会关注最相关的信息
 
 ---
@@ -19,7 +18,6 @@
 RNN需要记住"中国"才能理解"所以我说..."
 → 长序列时，信息会丢失
 ```
-
 
 **问题2：并行化差**
 
@@ -59,7 +57,6 @@ RNN必须按顺序处理：t=1 → t=2 → t=3 → ...
 - "玩"（主谓关系）
 - "球"（宾语关系）
 ```
-
 
 ### 7.2.2 Q、K、V 模型
 
@@ -136,7 +133,6 @@ print(f"输出形状: {output.shape}")  # [2, 10, 64]
 print(f"注意力权重形状: {weights.shape}")  # [2, 10, 10]
 ```
 
-
 ---
 
 ## 7.3 Self-Attention
@@ -156,7 +152,6 @@ Self-Attention:
 "学" → 关注所有 ["我", "爱", "学", "习"]
 "习" → 关注所有 ["我", "爱", "学", "习"]
 ```
-
 
 ### 7.3.2 Self-Attention vs 标准Attention
 
@@ -195,7 +190,6 @@ graph LR
     style B4 fill:#c8e6c9
 end
 ```
-
 
 ### 7.3.4 PyTorch实现
 
@@ -260,7 +254,6 @@ print(f"输出: {output.shape}")  # [2, 10, 64]
 print(f"注意力: {attention.shape}")  # [2, 4, 10, 10] (heads, seq, seq)
 ```
 
-
 ---
 
 ## 7.4 多头注意力（Multi-Head Attention）
@@ -284,7 +277,6 @@ Head 4: 关注指代关系
 
 → 合并：丰富的特征表示
 ```
-
 
 ### 7.4.2 多头注意力架构
 
@@ -326,7 +318,6 @@ graph TD
     style L fill:#c8e6c9
 ```
 
-
 ### 7.4.3 公式
 
 $$\text{MultiHead}(Q, K, V) = \text{Concat}(head_1, ..., head_h)W^O$$
@@ -363,7 +354,6 @@ K, V: 源语言的词
 Attention: 目标词关注哪些源词
 ```
 
-
 ### 7.5.2 PyTorch实现
 
 ```python
@@ -384,7 +374,6 @@ class CrossAttention(nn.Module):
 
         return attn_output, attn_weights
 ```
-
 
 ---
 
@@ -415,7 +404,6 @@ tokens = ['我', '爱', '学', '习']
 attention = torch.softmax(torch.randn(1, 4, 4), dim=-1)
 visualize_attention(attention, tokens)
 ```
-
 
 ---
 

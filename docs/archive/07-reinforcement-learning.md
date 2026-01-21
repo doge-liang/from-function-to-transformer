@@ -1,16 +1,15 @@
 # 第七章：强化学习
 
-```plaintext
 > 让智能体通过与环境交互学习最优策略
-```plaintext
+
 ---
-```plaintext
+
 ## 7.1 什么是强化学习？
-```plaintext
+
 ### 1.1 核心要素
-```plaintext
+
 **强化学习（Reinforcement Learning, RL）**：智能体通过与环境交互，根据获得的奖励信号学习最优策略。
-```plaintext
+
 ```mermaid
 flowchart TD
     A[智能体 Agent] -->|动作 action| B[环境 Environment]
@@ -20,7 +19,6 @@ flowchart TD
     style B fill:#ffe0b2
 ```
 
-```plaintext
 | 要素 | 描述 | 例子 |
 |------|------|------|
 | **智能体 (Agent)** | 学习决策的系统 | 下棋AI、机器人 |
@@ -28,17 +26,17 @@ flowchart TD
 | **状态 (State)** | 环境/智能体的当前情况 | 棋盘布局、机器人位置 |
 | **动作 (Action)** | 智能体的行为 | 移动棋子、关节转动 |
 | **奖励 (Reward)** | 环境对动作的反馈 | 得分、惩罚 |
-```plaintext
+
 ### 1.2 强化学习 vs 其他学习范式
-```plaintext
+
 | 类型 | 数据形式 | 目标 |
 |------|----------|------|
 | **监督学习** | $(x, y)$ 标注对 | 拟合 $P(y\|x)$ |
 | **无监督学习** | $x$ 无标签数据 | 学习数据分布 $P(x)$ |
 | **强化学习** | $(s, a, r, s')$ 交互序列 | 最大化长期累积奖励 |
-```plaintext
+
 ### 1.3 强化学习应用
-```plaintext
+
 | 领域 | 应用 |
 |------|------|
 | 游戏 | AlphaGo、星际争霸AI |
@@ -46,17 +44,17 @@ flowchart TD
 | 自动驾驶 | 决策规划 |
 | 推荐系统 | 用户交互优化 |
 | 大语言模型 | RLHF（人类反馈强化学习） |
-```plaintext
+
 ---
-```plaintext
+
 ## 7.2 马尔可夫决策过程（MDP）
-```plaintext
+
 ### 2.1 MDP 定义
-```plaintext
+
 **马尔可夫决策过程**是强化学习问题的数学框架：
-```plaintext
+
 $$MDP = (S, A, P, R, \gamma)$$
-```plaintext
+
 | 符号 | 含义 |
 |------|------|
 | $S$ | 状态空间 |
@@ -64,68 +62,68 @@ $$MDP = (S, A, P, R, \gamma)$$
 | $P(s'\|s, a)$ | 状态转移概率 |
 | $R(s, a, s')$ | 奖励函数 |
 | $\gamma \in [0, 1)$ | 折扣因子 |
-```plaintext
+
 ### 2.2 马尔可夫性质
-```plaintext
+
 **马尔可夫性质**：未来只依赖于当前状态，与历史无关。
-```plaintext
+
 $$P(s_{t+1} | s_t, a_t, s_{t-1}, a_{t-1}, ...) = P(s_{t+1} | s_t, a_t)$$
-```plaintext
+
 ### 2.3 轨迹与回报
-```plaintext
+
 **轨迹（Trajectory）**：智能体与环境交互产生的状态-动作序列。
-```plaintext
+
 $$\tau = (s_0, a_0, r_0, s_1, a_1, r_1, ...)$$
-```plaintext
+
 **回报（Return）**：累积折扣奖励。
-```plaintext
+
 $$G_t = r_t + \gamma r_{t+1} + \gamma^2 r_{t+2} + ... = \sum_{k=0}^{\infty} \gamma^k r_{t+k}$$
-```plaintext
+
 **折扣因子 $\gamma$ 的作用**：
-```plaintext
+
 - 权衡短期与长期奖励
 - $\gamma \approx 0$：短视，只关注即时奖励
 - $\gamma \approx 1$：远视，考虑长期影响
-```plaintext
+
 ### 2.4 价值函数
-```plaintext
+
 **状态价值函数 $V(s)$**：从状态 $s$ 开始的期望回报。
-```plaintext
+
 $$V(s) = E_{\tau \sim \pi} \left[ \sum_{k=0}^{\infty} \gamma^k r_{t+k} | s_0 = s \right]$$
-```plaintext
+
 **动作价值函数 $Q(s, a)$**：在状态 $s$ 执行动作 $a$ 后的期望回报。
-```plaintext
+
 $$Q(s, a) = E_{\tau \sim \pi} \left[ \sum_{k=0}^{\infty} \gamma^k r_{t+k} | s_0 = s, a_0 = a \right]$$
-```plaintext
+
 **贝尔曼方程**：
-```plaintext
+
 $$V(s) = \sum_a \pi(a|s) \left[ R(s, a) + \gamma \sum_{s'} P(s'|s, a) V(s') \right]$$
-```plaintext
+
 ### 2.5 最优策略
-```plaintext
+
 **最优价值函数**：
-```plaintext
+
 $$V^*(s) = \max_\pi V^\pi(s)$$
 $$Q^*(s, a) = \max_\pi Q^\pi(s, a)$$
-```plaintext
+
 **贝尔曼最优方程**：
-```plaintext
+
 $$V^*(s) = \max_a \left[ R(s, a) + \gamma \sum_{s'} P(s'|s, a) V^*(s') \right]$$
-```plaintext
+
 ---
-```plaintext
+
 ## 7.3 动态规划方法
-```plaintext
+
 ### 3.1 策略迭代
-```plaintext
+
 **策略迭代**交替进行策略评估和策略改进：
-```plaintext
+
 ```python
 def policy_iteration(env, gamma=0.9, theta=1e-6):
     # 初始化策略
     policy = np.ones((env.n_states, env.n_actions)) / env.n_actions
     V = np.zeros(env.n_states)
-```plaintext
+
     while True:
         # 策略评估
         while True:
@@ -139,7 +137,7 @@ def policy_iteration(env, gamma=0.9, theta=1e-6):
                 delta = max(delta, abs(v - V[s]))
             if delta < theta:
                 break
-```plaintext
+
         # 策略改进
         policy_stable = True
         for s in range(env.n_states):
@@ -152,22 +150,21 @@ def policy_iteration(env, gamma=0.9, theta=1e-6):
             if old_action != new_action:
                 policy_stable = False
             policy[s] = np.eye(env.n_actions)[new_action]
-```plaintext
+
         if policy_stable:
             break
-```plaintext
+
     return policy, V
 ```
 
-```plaintext
 ### 3.2 价值迭代
-```plaintext
+
 **价值迭代**直接迭代最优价值函数：
-```plaintext
+
 ```python
 def value_iteration(env, gamma=0.9, theta=1e-6):
     V = np.zeros(env.n_states)
-```plaintext
+
     while True:
         delta = 0
         for s in range(env.n_states):
@@ -178,10 +175,10 @@ def value_iteration(env, gamma=0.9, theta=1e-6):
                 for a in range(env.n_actions)
             ])
             delta = max(delta, abs(v - V[s]))
-```plaintext
+
         if delta < theta:
             break
-```plaintext
+
     # 提取策略
     policy = np.zeros((env.n_states, env.n_actions))
     for s in range(env.n_states):
@@ -191,32 +188,31 @@ def value_iteration(env, gamma=0.9, theta=1e-6):
             for a in range(env.n_actions)
         ])
         policy[s, best_action] = 1.0
-```plaintext
+
     return policy, V
 ```
 
-```plaintext
 ---
-```plaintext
+
 ## 7.4 时序差分学习
-```plaintext
+
 ### 4.1 Monte Carlo vs TD
-```plaintext
+
 | 方法 | 更新时机 | 优缺点 |
 |------|----------|--------|
 | **MC** | 完整轨迹后 | 无偏但方差大 |
 | **TD(0)** | 每步后 | 低方差，可能有偏 |
 | **TD($\lambda$)** | 介于两者之间 | 平衡方差与偏差 |
-```plaintext
+
 ### 4.2 Q-Learning
-```plaintext
+
 **Q-Learning**是经典的离线 TD 算法：
-```plaintext
+
 $$Q(s, a) \leftarrow Q(s, a) + \alpha \left[ r + \gamma \max_{a'} Q(s', a') - Q(s, a) \right]$$
-```plaintext
+
 ```python
 import numpy as np
-```plaintext
+
 class QLearning:
     def __init__(self, n_states, n_actions, gamma=0.99, alpha=0.1, epsilon=0.1):
         self.n_states = n_states
@@ -225,22 +221,22 @@ class QLearning:
         self.alpha = alpha
         self.epsilon = epsilon
         self.Q = np.zeros((n_states, n_actions))
-```plaintext
+
     def select_action(self, state):
         if np.random.random() < self.epsilon:
             return np.random.randint(self.n_actions)
         return np.argmax(self.Q[state])
-```plaintext
+
     def update(self, state, action, reward, next_state):
         td_target = reward + self.gamma * np.max(self.Q[next_state])
         td_error = td_target - self.Q[state, action]
         self.Q[state, action] += self.alpha * td_error
-```plaintext
+
     def train(self, env, n_episodes=10000):
         for episode in range(n_episodes):
             state = env.reset()
             done = False
-```plaintext
+
             while not done:
                 action = self.select_action(state)
                 next_state, reward, done, _ = env.step(action)
@@ -248,31 +244,30 @@ class QLearning:
                 state = next_state
 ```
 
-```plaintext
 ### 4.3 SARSA
-```plaintext
+
 **SARSA**是在线 TD 算法（与 Q-Learning 对比）：
-```plaintext
+
 $$Q(s, a) \leftarrow Q(s, a) + \alpha \left[ r + \gamma Q(s', a') - Q(s, a) \right]$$
-```plaintext
+
 | 特性 | Q-Learning | SARSA |
 |------|------------|-------|
 | 策略 | 离线（Max） | 在线（实际动作） |
 | 特点 | 激进 | 保守 |
 | 收敛 | $Q \to Q^*$ | $Q \to Q^\pi$ |
-```plaintext
+
 ---
-```plaintext
+
 ## 7.5 深度 Q 网络（DQN）
-```plaintext
+
 ### 5.1 DQN 核心思想
-```plaintext
+
 用深度神经网络近似 $Q(s, a)$，解决状态空间过大的问题。
-```plaintext
+
 ```python
 import torch
 import torch.nn as nn
-```plaintext
+
 class DQN(nn.Module):
     def __init__(self, state_dim, action_dim, hidden_dim=128):
         super().__init__()
@@ -283,27 +278,27 @@ class DQN(nn.Module):
             nn.ReLU(),
             nn.Linear(hidden_dim, action_dim)
         )
-```plaintext
+
     def forward(self, x):
         return self.net(x)
-```plaintext
+
 class ReplayBuffer:
     """经验回放缓冲区"""
     def __init__(self, capacity=10000):
         self.buffer = []
         self.capacity = capacity
-```plaintext
+
     def push(self, state, action, reward, next_state, done):
         self.buffer.append((state, action, reward, next_state, done))
         if len(self.buffer) > self.capacity:
             self.buffer.pop(0)
-```plaintext
+
     def sample(self, batch_size=64):
         batch = np.random.choice(len(self.buffer), batch_size, replace=False)
         states, actions, rewards, next_states, dones = zip(*[self.buffer[i] for i in batch])
         return (np.array(states), np.array(actions), np.array(rewards),
                 np.array(next_states), np.array(dones))
-```plaintext
+
 class DQNAgent:
     def __init__(self, state_dim, action_dim, gamma=0.99, lr=1e-3):
         self.q_net = DQN(state_dim, action_dim)
@@ -312,50 +307,49 @@ class DQNAgent:
         self.optimizer = torch.optim.Adam(self.q_net.parameters(), lr=lr)
         self.gamma = gamma
         self.replay_buffer = ReplayBuffer()
-```plaintext
+
     def select_action(self, state, epsilon=0.1):
         if np.random.random() < epsilon:
             return np.random.randint(action_dim)
         with torch.no_grad():
             return self.q_net(torch.FloatTensor(state)).argmax().item()
-```plaintext
+
     def update(self, batch_size=64):
         if len(self.replay_buffer) < batch_size:
             return
-```plaintext
+
         states, actions, rewards, next_states, dones = self.replay_buffer.sample(batch_size)
-```plaintext
+
         states = torch.FloatTensor(states)
         actions = torch.LongTensor(actions)
         rewards = torch.FloatTensor(rewards)
         next_states = torch.FloatTensor(next_states)
         dones = torch.FloatTensor(dones)
-```plaintext
+
         # 计算当前 Q 值
         current_q = self.q_net(states).gather(1, actions.unsqueeze(1)).squeeze()
-```plaintext
+
         # 计算目标 Q 值（使用 Double DQN 减少过估计）
         with torch.no_grad():
             next_actions = self.q_net(next_states).argmax(1)
             next_q = self.target_net(next_states).gather(1, next_actions.unsqueeze(1)).squeeze()
             target_q = rewards + self.gamma * next_q * (1 - dones)
-```plaintext
+
         # 损失函数
         loss = nn.MSELoss()(current_q, target_q)
-```plaintext
+
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
-```plaintext
+
         return loss.item()
-```plaintext
+
     def update_target(self):
         self.target_net.load_state_dict(self.q_net.state_dict())
 ```
 
-```plaintext
 ### 5.2 DQN 改进技术
-```plaintext
+
 | 技术 | 作用 |
 |------|------|
 | **经验回放** | 打破数据相关性 |
@@ -364,17 +358,17 @@ class DQNAgent:
 | **Dueling DQN** | 分解 V 和 A |
 | **优先级回放** | 重要经验优先学习 |
 | **Noisy Net** | 探索与利用平衡 |
-```plaintext
+
 ---
-```plaintext
+
 ## 7.6 策略梯度方法
-```plaintext
+
 ### 6.1 REINFORCE 算法
-```plaintext
+
 直接优化策略 $\pi_\theta(a|s)$：
-```plaintext
+
 $$\nabla_\theta J(\theta) = E_{\tau \sim \pi_\theta} \left[ \nabla_\theta \log \pi_\theta(a|s) \cdot G_t \right]$$
-```plaintext
+
 ```python
 class REINFORCE:
     def __init__(self, state_dim, action_dim, lr=1e-3):
@@ -387,17 +381,17 @@ class REINFORCE:
             nn.Softmax(dim=-1)
         )
         self.optimizer = torch.optim.Adam(self.policy_net.parameters(), lr=lr)
-```plaintext
+
     def select_action(self, state):
         probs = self.policy_net(torch.FloatTensor(state))
         dist = torch.distributions.Categorical(probs)
         return dist.sample().item()
-```plaintext
+
     def update(self, states, actions, rewards):
         states = torch.FloatTensor(np.array(states))
         actions = torch.LongTensor(actions)
         rewards = torch.FloatTensor(rewards)
-```plaintext
+
         # 计算折扣回报
         returns = []
         G = 0
@@ -405,23 +399,22 @@ class REINFORCE:
             G = r + 0.99 * G
             returns.insert(0, G)
         returns = torch.tensor(returns)
-```plaintext
+
         # 策略梯度更新
         log_probs = torch.log(self.policy_net(states))
         log_prob_actions = log_probs.gather(1, actions.unsqueeze(1)).squeeze()
-```plaintext
+
         loss = -(log_prob_actions * returns).mean()
-```plaintext
+
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
 ```
 
-```plaintext
 ### 6.2 Actor-Critic
-```plaintext
+
 结合价值函数估计，减少策略梯度的方差：
-```plaintext
+
 ```python
 class ActorCritic(nn.Module):
     def __init__(self, state_dim, action_dim, hidden_dim=64):
@@ -443,24 +436,24 @@ class ActorCritic(nn.Module):
             nn.ReLU(),
             nn.Linear(hidden_dim, 1)
         )
-```plaintext
+
     def forward(self, x):
         probs = self.actor(x)
         value = self.critic(x)
         return probs, value
-```plaintext
+
 class A2CAgent:
     def __init__(self, state_dim, action_dim, gamma=0.99, lr=3e-4):
         self.model = ActorCritic(state_dim, action_dim)
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=lr)
         self.gamma = gamma
-```plaintext
+
     def select_action(self, state):
         probs, value = self.model(torch.FloatTensor(state))
         dist = torch.distributions.Categorical(probs)
         action = dist.sample()
         return action.item(), dist.log_prob(action), value
-```plaintext
+
     def update(self, states, actions, rewards, next_states, dones, log_probs, values):
         # 计算折扣回报和优势函数
         returns = []
@@ -471,31 +464,30 @@ class A2CAgent:
             R = r + self.gamma * R
             returns.insert(0, R)
         returns = torch.tensor(returns)
-```plaintext
+
         values = torch.stack(values)
         advantages = returns - values.detach()
-```plaintext
+
         # Actor 损失
         actor_loss = -(torch.stack(log_probs) * advantages).mean()
-```plaintext
+
         # Critic 损失
         critic_loss = nn.MSELoss()((values, returns))
-```plaintext
+
         # 总损失
         loss = actor_loss + 0.5 * critic_loss
-```plaintext
+
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
 ```
 
-```plaintext
 ---
-```plaintext
+
 ## 7.7 PPO（近端策略优化）
-```plaintext
+
 **PPO**是目前最流行的强化学习算法之一：
-```plaintext
+
 ```python
 class PPO:
     def __init__(self, state_dim, action_dim, lr=3e-4, eps_clip=0.2, gamma=0.99):
@@ -503,7 +495,7 @@ class PPO:
         self.optimizer = torch.optim.Adam(self.policy.parameters(), lr=lr)
         self.eps_clip = eps_clip
         self.gamma = gamma
-```plaintext
+
     def update(self, states, actions, rewards, next_states, dones, old_log_probs):
         # 收集新策略的概率
         probs, values = self.policy(torch.FloatTensor(states))
@@ -511,7 +503,7 @@ class PPO:
         new_log_probs = dist.log_prob(torch.LongTensor(actions))
         new_probs = torch.exp(new_log_probs)
         old_probs = torch.exp(torch.stack(old_log_probs))
-```plaintext
+
         # 计算优势函数（简化的 GAE）
         advantages = []
         G = 0
@@ -522,27 +514,26 @@ class PPO:
             advantages.insert(0, G)
         advantages = torch.tensor(advantages) - values.detach()
         advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
-```plaintext
+
         # PPO 损失
         ratios = new_probs / old_probs
         surr1 = ratios * advantages
         surr2 = torch.clamp(ratios, 1 - self.eps_clip, 1 + self.eps_clip) * advantages
         loss = -torch.min(surr1, surr2).mean() + 0.5 * nn.MSELoss()(values.squeeze(), torch.tensor(advantages + values.detach().numpy()))
-```plaintext
+
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
 ```
 
-```plaintext
 ---
-```plaintext
+
 ## 7.8 强化学习与语言模型
-```plaintext
+
 ### 8.1 RLHF（基于人类反馈的强化学习）
-```plaintext
+
 **RLHF**用于让语言模型与人类偏好对齐：
-```plaintext
+
 ```mermaid
 flowchart TD
     A[SFT 模型] --> B[奖励模型训练]
@@ -552,25 +543,24 @@ flowchart TD
     style E fill:#c8e6c9
 ```
 
-```plaintext
 **步骤**：
-```plaintext
+
 1. **监督微调（SFT）**：用高质量数据微调语言模型
 2. **奖励模型（RM）**：训练模型预测人类偏好
 3. **PPO 微调**：用 RM 的奖励信号微调语言模型
-```plaintext
+
 ### 8.2 关键公式
-```plaintext
+
 **KL 散度正则化**（防止偏离原始模型太远）：
-```plaintext
+
 $$L_{PPO} = E_{x \sim D} \left[ E_{a \sim \pi_\theta(\cdot|x)} \left[ r_\phi(x, a) - \beta \log \frac{\pi_\theta(a|x)}{\pi_{ref}(a|x)} \right] \right]$$
-```plaintext
+
 ---
-```plaintext
+
 ## 7.9 总结
-```plaintext
+
 ### 算法对比
-```plaintext
+
 | 算法 | 类型 | 适用场景 | 优缺点 |
 |------|------|----------|--------|
 | Q-Learning | 值函数 | 离散动作、小状态 | 简单但难扩展 |
@@ -578,9 +568,9 @@ $$L_{PPO} = E_{x \sim D} \left[ E_{a \sim \pi_\theta(\cdot|x)} \left[ r_\phi(x, 
 | REINFORCE | 策略梯度 | 连续动作 | 高方差 |
 | Actor-Critic | 策略+值函数 | 平衡方差 | 需调参 |
 | PPO | 策略梯度 | 大多数场景 | 稳定、易用 |
-```plaintext
+
 ### 学习路线
-```plaintext
+
 ```
 
 MDP 基础 → Q-Learning → DQN → Actor-Critic → PPO → RLHF
@@ -588,35 +578,35 @@ MDP 基础 → Q-Learning → DQN → Actor-Critic → PPO → RLHF
          表格方法      深度强化学习   策略优化
 
 ```
-```plaintext
+
 ---
-```plaintext
+
 ## 思考题
-```plaintext
+
 1. 马尔可夫性质是什么？为什么它对强化学习重要？
 2. Q-Learning 和 SARSA 的核心区别是什么？
 3. 为什么要用折扣因子 $\gamma$？
 4. Experience Replay 的作用是什么？
 5. PPO 相比其他策略梯度方法有什么优势？
-```plaintext
+
 ---
-```plaintext
+
 ## 上一步
-```plaintext
+
 先学习 [生成模型](./05-generative-models.md)，了解各种生成方法。
-```plaintext
+
 或者先学习 [训练过程（基础篇）](./05-1-training-basics.md)，掌握神经网络训练的核心概念。
-```plaintext
+
 ---
-```plaintext
+
 ## 下一步
-```plaintext
+
 下一章我们将讨论 [Transformer 前置知识](./06-next-steps.md)，了解注意力机制的历史与发展。
-```plaintext
+
 ---
-```plaintext
+
 ## 参考资料
-```plaintext
+
 1. **Sutton & Barto (2018)** - "Reinforcement Learning: An Introduction"
 2. **Mnih et al. (2013)** - "Playing Atari with Deep Reinforcement Learning"
 3. **Schulman et al. (2017)** - "Proximal Policy Optimization Algorithms"

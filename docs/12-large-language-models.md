@@ -1,6 +1,5 @@
 # 第十二章：大规模语言模型（LLM）
 
-
 > 从Transformer到现代AI的核心
 
 ---
@@ -52,7 +51,6 @@ output = bert(**inputs)  # [batch, seq_len, hidden]
 gpt = GPT2LMHeadModel.from_pretrained('gpt2')
 output = gpt.generate(input_ids, max_length=50)
 ```
-
 
 ---
 
@@ -124,7 +122,6 @@ trainer = Trainer(
 trainer.train()
 ```
 
-
 ---
 
 ## 12.5 对齐
@@ -151,7 +148,6 @@ class RewardModel(nn.Module):
         return outputs.logits  # 奖励分数
 ```
 
-
 ### 12.5.3 PPO微调
 
 ```python
@@ -173,7 +169,6 @@ ppo_trainer = PPOTrainer(
 
 ppo_trainer.train()
 ```
-
 
 ---
 

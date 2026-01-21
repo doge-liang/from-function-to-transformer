@@ -1,6 +1,5 @@
 # 第二章：深度神经网络
 
-
 > 理解多层网络结构、前向传播与反向传播
 
 ---
@@ -18,57 +17,7 @@ graph TD
     I2[x2]
     I3[x3]
     end
-
-    subgraph 隐藏层1
-    H1
-    H2
-    H3
-    H4
-    end
-
-    subgraph 隐藏层2
-    H5
-    H6
-    end
-
-    subgraph 输出层
-    O1[y_hat1]
-    O2[y_hat2]
-    end
-
-    I1 --> H1
-    I1 --> H2
-    I1 --> H3
-    I1 --> H4
-    I2 --> H1
-    I2 --> H2
-    I2 --> H3
-    I2 --> H4
-    I3 --> H1
-    I3 --> H2
-    I3 --> H3
-    I3 --> H4
-
-    H1 --> H5
-    H1 --> H6
-    H2 --> H5
-    H2 --> H6
-    H3 --> H5
-    H3 --> H6
-    H4 --> H5
-    H4 --> H6
-
-    H5 --> O1
-    H5 --> O2
-    H6 --> O1
-    H6 --> O2
-
-    style 输入层 fill:#e1f5fe
-    style 输出层 fill:#fff3e0
-    style 隐藏层1 fill:#f3e5f5
-    style 隐藏层2 fill:#f3e5f5
 ```
-
 
 ### 2.1.2 术语解释
 
@@ -195,7 +144,6 @@ graph LR
     style C fill:#fff9c4
 ```
 
-
 **步骤**：
 
 1. **前向传播**：计算每层的激活值 $a^{(l)}$
@@ -261,7 +209,6 @@ x = torch.tensor([-5.0, 0.0, 5.0])
 print(sigmoid(x))  # tensor([0.0067, 0.5000, 0.9933])
 ```
 
-
 ### 2.4.2 Tanh
 
 **公式**：
@@ -280,7 +227,6 @@ $$\tanh'(x) = 1 - \tanh^2(x)$$
 tanh = nn.Tanh()
 print(tanh(x))  # tensor([-1.0000, 0.0000, 1.0000])
 ```
-
 
 ### 2.4.3 ReLU
 
@@ -302,7 +248,6 @@ relu = nn.ReLU()
 print(relu(x))  # tensor([0., 0., 5.])
 ```
 
-
 ### 2.4.4 Leaky ReLU
 
 **公式**：
@@ -317,7 +262,6 @@ $$\text{LeakyReLU}(x) = \max(0.01x, x)$$
 leaky_relu = nn.LeakyReLU(negative_slope=0.01)
 print(leaky_relu(x))  # tensor([-0.0500, 0.0000, 5.0000])
 ```
-
 
 ### 2.4.5 GELU（Gaussian Error Linear Unit）
 
@@ -335,7 +279,6 @@ $$\text{GELU}(x) = x \cdot \Phi(x)$$
 gelu = nn.GELU()
 print(gelu(x))  # tensor([-0.0036, 0.0000, 5.0000])
 ```
-
 
 ### 2.4.6 激活函数对比
 
@@ -377,7 +320,6 @@ graph LR
     style D fill:#c8e6c9
     style E fill:#ffcdd2
 ```
-
 
 **例子**：
 
@@ -455,7 +397,6 @@ print(f"输入: {X_test}")
 print(f"输出: {y_pred}")
 ```
 
-
 ### 2.6.2 反向传播实现
 
 ```python
@@ -514,7 +455,6 @@ def train(X, y, epochs=1000, learning_rate=0.01):
 
     return losses
 ```
-
 
 ---
 

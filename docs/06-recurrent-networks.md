@@ -1,6 +1,5 @@
 # 第六章：循环神经网络（RNN）
 
-
 > 处理序列数据的神经网络
 
 ---
@@ -20,7 +19,6 @@
 
 时间序列：昨天的价格影响今天的价格
 ```
-
 
 ### 6.1.2 CNN的局限
 
@@ -80,7 +78,6 @@ graph LR
     style h3 fill:#c8e6c9
 ```
 
-
 **关键**：隐藏状态 $h_t$ 传递到下一个时间步
 
 ### 6.2.2 数学公式
@@ -138,7 +135,6 @@ output = model(x)
 print(output.shape)  # [2, 2]
 ```
 
-
 ---
 
 ## 6.3 RNN的问题
@@ -174,7 +170,6 @@ LSTM： 长期记忆（细胞状态）+ 短期记忆（隐藏状态）
 - 输入门：决定记住什么信息
 - 输出门：决定输出什么信息
 ```
-
 
 ### 6.4.2 LSTM结构
 
@@ -233,7 +228,6 @@ model = LSTMModel(vocab_size=10000, embed_dim=300,
                 hidden_dim=128, num_classes=2)
 ```
 
-
 ---
 
 ## 6.5 GRU
@@ -273,7 +267,6 @@ self.gru = nn.GRU(
 output, hidden = self.gru(embedded)
 ```
 
-
 ---
 
 ## 6.6 双向RNN
@@ -293,7 +286,6 @@ self.rnn = nn.LSTM(
 # 隐藏状态维度会翻倍
 # hidden: [2 * num_layers, batch, hidden_dim]
 ```
-
 
 **适用场景**：
 
@@ -348,14 +340,12 @@ for epoch in range(20):
     scheduler.step()
 ```
 
-
 ### 6.7.2 梯度裁剪
 
 ```python
 # 防止梯度爆炸
 torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
 ```
-
 
 ---
 
@@ -396,7 +386,6 @@ model = LSTMModel(
 # 训练（目标准确率：>88%）
 # 完整代码参考第4章MNIST示例
 ```
-
 
 ---
 

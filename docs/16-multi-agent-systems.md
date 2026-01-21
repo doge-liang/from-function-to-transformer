@@ -1,6 +1,5 @@
 # 第十六章：多智能体系统
 
-
 > 让多个AI协作解决复杂任务
 
 ---
@@ -34,7 +33,6 @@
          [协调者]
 ```
 
-
 ---
 
 ## 16.2 PlanGEN框架
@@ -53,7 +51,6 @@ graph TD
     style E fill:#c8e6c9
 ```
 
-
 ### 16.2.2 约束智能体（Constraint Agent）
 
 **作用**：确保方案满足所有约束
@@ -70,7 +67,6 @@ class ConstraintAgent:
         return True
 ```
 
-
 ### 16.2.3 验证智能体（Validation Agent）
 
 **作用**：评估方案质量
@@ -86,7 +82,6 @@ class ValidationAgent:
             score += criterion(solution)
         return score
 ```
-
 
 ### 16.2.4 选择智能体（Selection Agent）
 
@@ -106,7 +101,6 @@ class SelectionAgent:
 
         return best_candidate
 ```
-
 
 ---
 
@@ -145,7 +139,6 @@ def assign_tasks(tasks, agents):
     return assignments
 ```
 
-
 ---
 
 ## 16.4 通信机制
@@ -177,7 +170,6 @@ class MessageProtocol:
     def receive(self, message):
         self.inbox.append(message)
 ```
-
 
 ---
 

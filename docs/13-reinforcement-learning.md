@@ -1,6 +1,5 @@
 # 第十三章：强化学习基础
 
-
 > 智能体如何通过交互学习最优策略
 
 ---
@@ -88,7 +87,6 @@ class QLearning:
         self.Q[state, action] += self.alpha * td_error
 ```
 
-
 ---
 
 ## 13.4 深度Q网络（DQN）
@@ -114,7 +112,6 @@ class DQN(nn.Module):
         return self.network(x)
 ```
 
-
 ### 13.4.2 经验回放
 
 ```python
@@ -131,7 +128,6 @@ class ReplayBuffer:
         indices = np.random.choice(len(self.buffer), batch_size, replace=False)
         return [self.buffer[i] for i in indices]
 ```
-
 
 ---
 

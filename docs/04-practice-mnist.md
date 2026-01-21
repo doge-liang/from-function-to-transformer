@@ -1,6 +1,5 @@
 # 第四章：实践 - MNIST手写数字识别
 
-
 > 构建你的第一个深度学习项目
 
 ---
@@ -29,7 +28,6 @@ train_dataset = datasets.MNIST(
 )
 ```
 
-
 ### 4.1.2 项目目标
 
 | 指标 | 目标值 |
@@ -52,7 +50,6 @@ pip install torch torchvision
 pip install jupyter matplotlib
 ```
 
-
 ### 4.2.2 验证安装
 
 ```python
@@ -66,7 +63,6 @@ print(f"CUDA可用: {torch.cuda.is_available()}")
 mnist = datasets.MNIST('./data', download=True)
 print(f"MNIST下载成功！")
 ```
-
 
 ---
 
@@ -104,7 +100,6 @@ print(f"训练集大小: {len(train_dataset)}")
 print(f"测试集大小: {len(test_dataset)}")
 ```
 
-
 ### 4.3.2 数据加载器
 
 ```python
@@ -133,7 +128,6 @@ print(f"标签形状: {labels.shape}")  # [64]
 print(f"标签内容: {labels[:10]}")
 ```
 
-
 ### 4.3.3 数据可视化
 
 ```python
@@ -153,7 +147,6 @@ def show_images(images, labels, n_rows=4, n_cols=8):
 # 显示前32张训练图像
 show_images(images, labels)
 ```
-
 
 ---
 
@@ -201,7 +194,6 @@ total_params = sum(p.numel() for p in model.parameters())
 print(f"总参数数量: {total_params:,}")
 ```
 
-
 ### 4.4.2 更深的网络（可选）
 
 ```python
@@ -235,7 +227,6 @@ class DeepMLP(nn.Module):
 model = DeepMLP()
 ```
 
-
 ---
 
 ## 4.5 训练配置
@@ -253,7 +244,6 @@ print(f"使用设备: {device}")
 model = model.to(device)
 ```
 
-
 ### 4.5.2 损失函数和优化器
 
 ```python
@@ -268,7 +258,6 @@ optimizer = optim.Adam(model.parameters(), lr=0.001)
 # 学习率调度器（可选）
 scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.5)
 ```
-
 
 ---
 
@@ -317,7 +306,6 @@ def train(model, device, train_loader, criterion, optimizer, epoch):
     return avg_loss, accuracy
 ```
 
-
 ### 4.6.2 测试函数
 
 ```python
@@ -342,7 +330,6 @@ def test(model, device, test_loader, criterion):
 
     return avg_loss, accuracy
 ```
-
 
 ### 4.6.3 完整训练循环
 
@@ -389,7 +376,6 @@ def train_model(model, device, train_loader, test_loader, criterion, optimizer, 
 history = train_model(model, device, train_loader, test_loader, criterion, optimizer, scheduler, num_epochs=20)
 ```
 
-
 ---
 
 ## 4.7 结果分析
@@ -425,7 +411,6 @@ def plot_training_history(history):
 plot_training_history(history)
 ```
 
-
 ### 4.7.2 预测结果可视化
 
 ```python
@@ -452,7 +437,6 @@ def visualize_predictions(model, device, test_loader, num_samples=16):
 
 visualize_predictions(model, device, test_loader)
 ```
-
 
 ---
 
@@ -490,7 +474,6 @@ def plot_confusion_matrix(model, device, test_loader):
 plot_confusion_matrix(model, device, test_loader)
 ```
 
-
 ### 4.8.2 各类别准确率
 
 ```python
@@ -520,7 +503,6 @@ def calculate_per_class_accuracy(model, device, test_loader):
 calculate_per_class_accuracy(model, device, test_loader)
 ```
 
-
 ---
 
 ## 4.9 常见问题与调试
@@ -546,7 +528,6 @@ optimizer = optim.Adam(model.parameters(), lr=0.0001)
 torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
 ```
 
-
 ### 4.9.2 损失为NaN
 
 **症状**：训练过程中损失变为NaN
@@ -569,7 +550,6 @@ for layer in model.modules():
         nn.init.kaiming_normal_(layer.weight, mode='fan_in', nonlinearity='relu')
 ```
 
-
 ### 4.9.3 训练慢
 
 **症状**：训练时间过长
@@ -589,7 +569,6 @@ optimizer = optim.AdamW(model.parameters(), lr=0.001)
 # 减少数据加载进程
 train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=0)
 ```
-
 
 ### 4.9.4 准确率不提升
 
@@ -616,7 +595,6 @@ transform = transforms.Compose([
     transforms.Normalize((0.1307,), (0.3081,))
 ])
 ```
-
 
 ---
 
@@ -725,7 +703,6 @@ for epoch in range(1, 21):
 
 print(f'\n最佳准确率: {best_acc:.2f}%')
 ```
-
 
 ---
 

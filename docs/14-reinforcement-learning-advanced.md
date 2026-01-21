@@ -1,6 +1,5 @@
 # 第十四章：RLHF与对齐
 
-
 > 用人类反馈强化学习训练AI
 
 ---
@@ -26,7 +25,6 @@ flowchart LR
     style F fill:#c8e6c9
 ```
 
-
 ---
 
 ## 14.2 奖励模型（Reward Model）
@@ -43,7 +41,6 @@ flowchart LR
 
 人类偏好：A > B
 ```
-
 
 ### 14.2.2 训练奖励模型
 
@@ -78,7 +75,6 @@ def train_reward_model(model, dataset):
         loss.backward()
         optimizer.step()
 ```
-
 
 ---
 
@@ -123,7 +119,6 @@ ppo_trainer = PPOTrainer(
 
 ppo_trainer.train()
 ```
-
 
 ---
 

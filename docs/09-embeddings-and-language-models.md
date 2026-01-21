@@ -1,6 +1,5 @@
 # 第九章：词嵌入与语言模型
 
-
 > 从静态嵌入到上下文感知的预训练模型
 
 ---
@@ -24,7 +23,6 @@ One-Hot：
 
 问题："猫"和"狗"的距离 = √2，没有语义信息
 ```
-
 
 ### 9.1.2 词嵌入的优势
 
@@ -64,7 +62,6 @@ embeddings = embedding(word_indices)
 print(embeddings.shape)  # [3, 300] (3个词，每个300维)
 ```
 
-
 ---
 
 ## 9.2 Word2Vec
@@ -84,7 +81,6 @@ print(embeddings.shape)  # [3, 300] (3个词，每个300维)
 
 → "狗"和"猫"的向量应该相近
 ```
-
 
 ### 9.2.2 两种架构
 
@@ -112,7 +108,6 @@ graph LR
     pred2 --> s3["学习"]
     end
 ```
-
 
 ### 9.2.3 训练Word2Vec
 
@@ -142,7 +137,6 @@ result = model.wv.most_similar(positive=['国王', '女人'],
                                  negative=['男人'])
 print(result[0])  # ('女王', 0.86)
 ```
-
 
 ---
 
@@ -182,7 +176,6 @@ print(f"猫和狗的相似度: {similarity.item():.4f}")  # ~0.87
 print(glove.similar_by_word('学习', 10))
 ```
 
-
 ---
 
 ## 9.4 语言模型基础
@@ -211,7 +204,6 @@ P(w_n | w_1, ..., w_{n-1}) ≈ P(w_n | w_{n-1})
 
 P(学习 | 我爱) = count(我爱学习) / count(我爱)
 ```
-
 
 **局限**：数据稀疏，无法处理长距离依赖
 
@@ -243,7 +235,6 @@ $$P(w_t | w_1, ..., w_{t-1}) = \text{softmax}(f(w_1, ..., w_{t-1}))$$
 
 但Word2Vec只有一个"苹果"向量！
 ```
-
 
 ### 9.5.2 上下文嵌入（ELMo）
 
@@ -296,7 +287,6 @@ Mask：我[MASK]学习深度[MASK]
 目标：否（不连续）
 ```
 
-
 ### 9.6.3 使用Hugging Face
 
 ```python
@@ -317,7 +307,6 @@ with torch.no_grad():
 
 print(embeddings.shape)
 ```
-
 
 ---
 
@@ -351,7 +340,6 @@ output = model.generate(
 generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
 print(generated_text)
 ```
-
 
 ---
 

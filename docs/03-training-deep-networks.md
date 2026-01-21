@@ -1,6 +1,5 @@
 # 第三章：训练深度神经网络
 
-
 > 损失函数、优化算法、参数初始化与正则化
 
 ---
@@ -49,7 +48,6 @@ mae_loss = nn.L1Loss()
 huber_loss = nn.SmoothL1Loss()
 ```
 
-
 ### 3.1.3 分类损失
 
 **交叉熵损失（Cross-Entropy）**：
@@ -75,7 +73,6 @@ criterion = nn.BCEWithLogitsLoss()  # 内部包含sigmoid
 # 多分类
 criterion = nn.CrossEntropyLoss()  # 内部包含softmax
 ```
-
 
 ### 3.1.4 损失函数选择指南
 
@@ -132,7 +129,6 @@ for epoch in range(num_epochs):
         optimizer.step()
 ```
 
-
 ### 3.2.3 Momentum
 
 **问题**：SGD在平坦区域收敛慢，容易陷入局部最优。
@@ -152,7 +148,6 @@ $$W_t = W_{t-1} - \eta v_t$$
 optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
 ```
 
-
 ### 3.2.4 Nesterov Accelerated Gradient (NAG)
 
 **论文**：《Nesterov: A method of solving a convex programming problem with convergence rate O(1/k²)》
@@ -166,7 +161,6 @@ $$W_t = W_{t-1} - \eta v_t$$
 ```python
 optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9, nesterov=True)
 ```
-
 
 ### 3.2.5 AdaGrad
 
@@ -187,7 +181,6 @@ $$W_t = W_{t-1} - \frac{\eta}{\sqrt{G_t} + \epsilon} \nabla L$$
 optimizer = optim.Adagrad(model.parameters(), lr=0.01)
 ```
 
-
 ### 3.2.6 RMSprop
 
 **论文**：《Hinton et al. (2012): Neural Networks for Machine Learning》
@@ -201,7 +194,6 @@ $$W_t = W_{t-1} - \frac{\eta}{\sqrt{G_t} + \epsilon} \nabla L$$
 ```python
 optimizer = optim.RMSprop(model.parameters(), lr=0.01)
 ```
-
 
 ### 3.2.7 Adam（Adaptive Moment Estimation）
 
@@ -233,7 +225,6 @@ $$W_t = W_{t-1} - \eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon}$$
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 ```
 
-
 ### 3.2.8 AdamW
 
 **论文**：《Loshchilov & Hutter (2019): Decoupled Weight Decay Regularization》
@@ -247,7 +238,6 @@ $$W_t = W_{t-1} - \eta \frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon} - \eta \lam
 ```python
 optimizer = optim.AdamW(model.parameters(), lr=0.001, weight_decay=0.01)
 ```
-
 
 ### 3.2.9 优化器对比
 
@@ -288,7 +278,6 @@ W = torch.zeros(10, 10)
 bias = torch.zeros(10)
 ```
 
-
 ### 3.3.3 Xavier初始化
 
 **论文**：《Glorot & Bengio (2010): Understanding the difficulty of training deep feedforward neural networks》
@@ -308,7 +297,6 @@ $$W \sim N\left(0, \sqrt{\frac{2}{n_{in} + n_{out}}}\right)$$
 nn.init.xavier_uniform_(layer.weight)
 nn.init.xavier_normal_(layer.weight)
 ```
-
 
 ### 3.3.4 He初始化
 
@@ -330,7 +318,6 @@ nn.init.kaiming_uniform_(layer.weight, mode='fan_in', nonlinearity='relu')
 nn.init.kaiming_normal_(layer.weight, mode='fan_in', nonlinearity='relu')
 ```
 
-
 ### 3.3.5 LeCun初始化
 
 **适用**：SELU激活函数
@@ -340,7 +327,6 @@ $$W \sim N\left(0, \frac{1}{n_{in}}\right)$$
 ```python
 nn.init.normal_(layer.weight, mean=0, std=np.sqrt(1/n_in))
 ```
-
 
 ### 3.3.6 PyTorch默认初始化
 
@@ -380,7 +366,6 @@ l1_reg = sum(torch.norm(param, 1) for param in model.parameters())
 loss = criterion(predictions, y) + lambda_l1 * l1_reg
 ```
 
-
 ### 3.4.3 L2正则化（Ridge）
 
 $$\text{Loss} = \text{MSE} + \lambda \sum_{i=1}^{n}w_i^2$$
@@ -395,7 +380,6 @@ $$\text{Loss} = \text{MSE} + \lambda \sum_{i=1}^{n}w_i^2$$
 # L2正则化（使用weight_decay）
 optimizer = optim.Adam(model.parameters(), lr=0.001, weight_decay=0.01)
 ```
-
 
 ### 3.4.4 Dropout
 
@@ -427,7 +411,6 @@ class SimpleNN(nn.Module):
         x = self.fc2(x)
         return x
 ```
-
 
 ### 3.4.5 Batch Normalization
 
@@ -466,7 +449,6 @@ class SimpleNN(nn.Module):
         return x
 ```
 
-
 ### 3.4.6 Early Stopping
 
 **核心**：监控验证集损失，当不再下降时停止训练。
@@ -491,7 +473,6 @@ for epoch in range(num_epochs):
             break
 ```
 
-
 ---
 
 ## 3.5 学习率调度
@@ -504,20 +485,17 @@ for epoch in range(num_epochs):
 scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=30, gamma=0.1)
 ```
 
-
 **Exponential LR**：指数衰减
 
 ```python
 scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.95)
 ```
 
-
 **Cosine Annealing**：余弦退火
 
 ```python
 scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=100)
 ```
-
 
 **ReduceLROnPlateau**：监控指标，不改善时降低学习率
 
@@ -526,7 +504,6 @@ scheduler = optim.lr_scheduler.ReduceLROnPlateau(
     optimizer, mode='min', factor=0.1, patience=5
 )
 ```
-
 
 ### 3.5.2 学习率预热（Warmup）
 
@@ -551,7 +528,6 @@ class WarmupScheduler:
         for param_group in self.optimizer.param_groups:
             param_group['lr'] = lr
 ```
-
 
 ---
 
@@ -662,7 +638,6 @@ for epoch in range(1, num_epochs + 1):
         torch.save(model.state_dict(), 'best_model.pth')
         print('Best model saved!')
 ```
-
 
 ---
 

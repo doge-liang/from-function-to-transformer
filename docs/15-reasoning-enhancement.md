@@ -1,6 +1,5 @@
 # 第十五章：推理增强技术
 
-
 > 让AI学会"像人一样思考"
 
 ---
@@ -25,7 +24,6 @@ CoT推理：
 4. 答案：3个
 ```
 
-
 ### 15.1.2 Zero-Shot CoT
 
 ```
@@ -48,7 +46,6 @@ Q: 一本书20页，每天读5页...
 A: ...
 ```
 
-
 ---
 
 ## 15.2 Self-Consistency
@@ -69,7 +66,6 @@ A: ...
 投票：27（3票一致）
 ```
 
-
 ### 15.2.2 实现方法
 
 ```python
@@ -86,7 +82,6 @@ def self_consistency(model, question, n_samples=5):
 
     return most_common
 ```
-
 
 ---
 
@@ -112,7 +107,6 @@ def self_consistency(model, question, n_samples=5):
 选择：B1
 ```
 
-
 ### 15.3.2 搜索策略
 
 - **广度优先（BFS）**：逐层探索
@@ -135,7 +129,6 @@ def self_consistency(model, question, n_samples=5):
 
 A是起点，E是终点，多条路径共享中间推理
 ```
-
 
 ### 15.4.2 聚合操作
 

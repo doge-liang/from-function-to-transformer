@@ -1,6 +1,5 @@
 # 第八章：Transformer架构
 
-
 > 彻底改变深度学习的革命性模型
 
 ---
@@ -48,7 +47,6 @@ flowchart LR
     style C fill:#c8e6c9
 ```
 
-
 **结构**：
 
 - **Encoder**：编码输入序列
@@ -72,7 +70,6 @@ flowchart LR
 Self-Attention认为相同！
 → 需要位置信息
 ```
-
 
 ### 8.2.2 正弦位置编码
 
@@ -132,7 +129,6 @@ output = pos_encoding(x)
 print(output.shape)  # [2, 10, 512]
 ```
 
-
 ### 8.2.4 可学习位置编码
 
 ```python
@@ -141,7 +137,6 @@ self.pos_embedding = nn.Embedding(max_len, d_model)
 
 x = x + self.pos_embedding(torch.arange(seq_len, device=x.device))
 ```
-
 
 ---
 
@@ -186,7 +181,6 @@ class TransformerEncoderLayer(nn.Module):
 
         return x
 ```
-
 
 ### 8.3.2 Decoder Layer
 
@@ -237,7 +231,6 @@ class TransformerDecoderLayer(nn.Module):
         return x
 ```
 
-
 ### 8.3.3 Mask
 
 **Padding Mask**：忽略padding位置
@@ -250,7 +243,6 @@ def create_padding_mask(seq, pad_idx=0):
     return mask.unsqueeze(1).unsqueeze(2)
 ```
 
-
 **Look-ahead Mask**：Decoder不能看到未来的词
 
 ```python
@@ -260,7 +252,6 @@ def create_look_ahead_mask(size):
     # True表示需要mask的位置
     return mask == 1
 ```
-
 
 ---
 
@@ -319,7 +310,6 @@ model = Transformer(vocab_size, num_layers=6)
 print(f"模型参数量: {sum(p.numel() for p in model.parameters()):,}")
 ```
 
-
 ### 8.4.2 超参数
 
 | 参数 | 原论文 | 常用值 |
@@ -357,7 +347,6 @@ class LabelSmoothingLoss(nn.Module):
         return torch.sum(true_dist * -torch.log_softmax(pred, dim=-1), dim=-1).mean()
 ```
 
-
 ### 8.5.2 学习率预热
 
 ```python
@@ -384,7 +373,6 @@ class WarmupScheduler:
 optimizer = optim.Adam(model.parameters(), betas=(0.9, 0.98), eps=1e-9)
 scheduler = WarmupScheduler(optimizer, d_model=512)
 ```
-
 
 ---
 

@@ -1,6 +1,5 @@
 # 第十一章：生成式模型（二）Diffusion与Flow
 
-
 > 现代生成模型的前沿技术
 
 ---
@@ -20,7 +19,6 @@ x0 (原始图像) → x1 → x2 → ... → xT (纯噪声)
 反向过程（去噪）：
 xT (纯噪声) → xT-1 → ... → x0 (生成图像)
 ```
-
 
 ### 11.1.2 前向扩散过程
 
@@ -79,7 +77,6 @@ def train_diffusion(model, dataloader, T=1000):
             optimizer.step()
 ```
 
-
 ### 11.1.5 Stable Diffusion
 
 **组成**：
@@ -103,7 +100,6 @@ def train_diffusion(model, dataloader, T=1000):
 
 生成：z ~ N(0,I) → x = f^-1(z)
 ```
-
 
 ### 11.2.2 变换公式
 
@@ -139,7 +135,6 @@ class CouplingLayer(nn.Module):
 
         return y, logdet
 ```
-
 
 ---
 

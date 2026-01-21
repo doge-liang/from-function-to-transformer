@@ -1,6 +1,5 @@
 # 第五章：卷积神经网络（CNN）
 
-
 > 用卷积操作提取图像局部特征
 
 ---
@@ -74,7 +73,6 @@
 输出：[4.0, 6.0, 8.0]
 ```
 
-
 **二维示例**：
 
 ```
@@ -90,7 +88,6 @@
 (2×0 + 1×1 + 0×0) +
 (1×-1 + 0×0 + 1×1) = 1
 ```
-
 
 ### 5.2.3 卷积参数
 
@@ -109,7 +106,6 @@ conv = nn.Conv2d(
 # 输入：[batch, 3, 28, 28]
 # 输出：[batch, 64, 28, 28]
 ```
-
 
 | 参数 | 含义 | 常用值 |
 |------|------|--------|
@@ -152,7 +148,6 @@ Max Pooling：   max(1,3,2,4) = 4
 Avg Pooling：    avg(1,3,2,4) = 2.5
 ```
 
-
 | 类型 | 计算 | 特点 |
 |------|------|------|
 | Max Pooling | 取最大值 | 保留最显著特征 |
@@ -171,7 +166,6 @@ maxpool = nn.MaxPool2d(kernel_size=2, stride=2)
 # Average Pooling
 avgpool = nn.AvgPool2d(kernel_size=2, stride=2)
 ```
-
 
 ---
 
@@ -242,7 +236,6 @@ output = model(x)
 print(output.shape)  # [1, 10]
 ```
 
-
 ---
 
 ## 5.5 经典CNN架构
@@ -292,7 +285,6 @@ class ResidualBlock(nn.Module):
         return torch.relu(out)
 ```
 
-
 **优势**：
 
 - 解决梯度消失
@@ -338,7 +330,6 @@ for epoch in range(20):
     print(f'Epoch {epoch+1}: Loss={train_loss/len(train_loader):.4f}, Acc={accuracy:.2f}%')
 ```
 
-
 ### 5.6.2 数据增强
 
 ```python
@@ -352,7 +343,6 @@ transform = transforms.Compose([
     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
 ])
 ```
-
 
 ---
 
@@ -389,7 +379,6 @@ test_loader = DataLoader(test_dataset, batch_size=100, shuffle=False)
 # 训练（使用上面的模型）
 # 目标准确率：>85%
 ```
-
 
 ---
 
