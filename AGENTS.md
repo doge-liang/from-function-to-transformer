@@ -153,3 +153,28 @@ Windows 用户注意：如果系统生成 `nul` 文件（Windows 保留设备名
 ```bash
 find . -name "nul" -type f -delete 2>/dev/null || true
 ```
+
+---
+
+## 提交规范
+
+**每次修改完成后，必须执行以下步骤：**
+
+1. **Git 跟踪**: `git add <修改的文件>` 或 `git add -A`
+2. **生成 Commit Message**: 使用语义化提交格式
+   - `feat:` 新功能
+   - `fix:` 修复问题
+   - `docs:` 文档更新
+   - `style:` 代码格式（不影响功能）
+   - `refactor:` 重构
+   - `test:` 测试相关
+   - `chore:` 构建/工具/其他
+3. **提交**: `git commit -m "type: description"`
+4. **推送**: `git push` 或 `git push origin <branch>`
+
+**Commit Message 示例：**
+```bash
+git commit -m "feat: 添加用户登录功能"
+git commit -m "fix: 修复数组越界错误"
+git commit -m "docs: 更新 API 文档"
+```
