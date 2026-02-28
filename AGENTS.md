@@ -143,3 +143,13 @@ def run_command(cmd: list[str], timeout: int = 60) -> tuple[bool, str]:
 4. Check Markdown rendering
 5. Ensure all new SVGs in `docs/assets/`
 6. No temporary LaTeX files (in .gitignore)
+
+7. **删除 `nul` 文件**: `find . -name "nul" -type f -delete` (Windows 保留设备名，无法提交)
+
+## Pre-commit Checks (Additional)
+
+Windows 用户注意：如果系统生成 `nul` 文件（Windows 保留设备名），请务必删除：
+
+```bash
+find . -name "nul" -type f -delete 2>/dev/null || true
+```
